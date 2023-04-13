@@ -1,4 +1,5 @@
-#define kingdomTree_H
+#ifndef royalTree_H
+#define royalTree_H
 
 #include "boolean.h"
 
@@ -17,22 +18,19 @@
 #define next(P) (P)->next
 #define Nil NULL
 
-//Maksimal node yang dapat ditampung dalam array
-#define jml_maks 50
-
 /***************************/
 /*  	  Type data        */
 /***************************/
 
-typedef char infoType;
+typedef char infoType[50];
 typedef struct kingdomTree *nkAddr;
 typedef struct pair *pairAddr;
 
 typedef struct {
 	infoType name;
 	int age;
-	bool gender;
-	bool married;
+	boolean gender;
+	//boolean married;
 }identity;
 
 typedef struct pair{
@@ -69,7 +67,12 @@ nkAddr CreateNode (nkAddr parent, infoType name, int age, bool gender, bool marr
 pairAddr CreateNPartner (infoType name, int age, bool gender, bool married);
 /*Alokasi node partner*/
 
-nkAddr Search(nkAddr root, intoType src);
+void DeleteNode(nkAddr *Node);
+/*IS : Node terdefinisi*/
+/*FS : Node dikembalikan ke sistem*/
+/* Melakukan dealokasi node*/
+
+nkAddr Search(nkAddr root, infoType src);
 /* Mencari apakah ada node dengan nbType src*/
 /* Jika ada, mengirimkan address node tsb*/
 /* Jika tidak ada, mengirimkan NULL*/
