@@ -71,14 +71,14 @@ nkAddr Search(nkAddr root, infoType src){
 void InsertNode(nkTree *treeRoot, nkAddr newNode){
 	nkAddr temp;
 	/*Jika belum ada root*/
-	if(parent(newNode)==NULL){
+	if(parent(newNode)==Nil){
 		treeRoot->root=newNode;
 		return;
 	}
 	
-	temp=newNode->parent;
+	temp=parent(newNode);
 	/*Jika tidak memiliki first son*/
-	if(fs(temp)==NULL){
+	if(fs(temp)==Nil){
 		fs(temp)=newNode;
 		return;
 	}
@@ -111,10 +111,10 @@ void InsertNode(nkTree *treeRoot, nkAddr newNode){
 	/*Jika newNode female*/
 	if(gender((&info)newNode)==FEMALE){
 		/*Travers selama next brother male, kemudian travers hingga menemukan next brother yang umurnya lebih muda*/
-		while(nb(temp)!=NULL && gender(((&info)nb)temp) == MALE){
+		while(nb(temp)!=Nil && gender(((&info)nb)temp) == MALE){
 			temp=temp->nb;
 		}
-		while(nb(temp)!=NULL && age((&info)newNode) <= age(((&info)nb)temp)){
+		while(nb(temp)!=Nil && age((&info)newNode) <= age(((&info)nb)temp)){
 			temp=nb(temp);
 		}
 	}
@@ -126,7 +126,7 @@ void InsertNode(nkTree *treeRoot, nkAddr newNode){
 	} 
 	
 	/*Jika prioritas newNode paling rendah*/
-	temp->nb=newNode;
+	nb(temp)=newNode;
 }
 
 void InsertPartner(nkAddr familyMember, pairAddr partner){
