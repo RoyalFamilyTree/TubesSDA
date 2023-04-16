@@ -1,8 +1,23 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <conio.h>
+#include <windows.h>
 
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+#include "royalTree.h"
 
-int main(int argc, char *argv[]) {
-	return 0;
+#define CREATOR "Created by Adinda Fauzia Puspita, Muhammad Fikri Nursyabani & Welsya Almaira Indra"
+
+int main(){
+	nkTree pTree;
+	CreateNode(&pTree);
+	nkAddr node;
+	int year;
+	char tombol,tombol2;
+	char str[]="";
+	char searchname[20];
+	unsigned char choice;
+	printf(CREATOR);
+	printf("\n\n");
+	system("Pause");
+	system("cls");
+	InsertKing(&pTree);
 }
