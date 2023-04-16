@@ -68,6 +68,29 @@ nkAddr Search(nkAddr root, infoType src){
 	return Nil;
 }
 
+void insertMember(nkTree *tree, nkAddr parent, identity newIdentity){
+    nkAddr newMember = (nkAddr) malloc(sizeof(nkTreeNode));
+    newMember->fs = NULL;
+    newMember->nb = NULL;
+    newMember->parent = parent;
+    newMember->info = newIdentity;
+    newMember->partner = NULL;
+    
+    if (parent == NULL) { // jika parent kosong, maka newMember adalah root
+        tree->root = newMember;
+    } else { // jika parent tidak kosong, maka hubungkan newMember dengan parent
+        if (parent->fs == NULL) {
+            parent->fs = newMember;
+        } else {
+            nkAddr sibling = parent->fs;
+            while (sibling->nb != NULL) {
+                sibling = sibling->nb;
+            }
+            sibling->nb = newMember;
+        }
+    }
+}
+
 void InsertNode(nkTree *treeRoot, nkAddr newNode){
 	nkAddr temp;
 	/*Jika belum ada root*/
