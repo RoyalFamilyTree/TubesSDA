@@ -197,4 +197,53 @@ void InsertVPartner(nkTree *pTree){
 	getch();
 }
 
+struct Queue *initQueue(int size) {
+    struct Queue *queue = (struct Queue*)malloc(sizeof(struct Queue));
+    queue->front = 0;
+    queue->rear = 0;
+    queue->size = size;
+    queue->arr = (nkAddr*)malloc(size * sizeof(nkAddr));
+    return queue;
+}
 
+void enQueue(struct Queue *queue, nkAddr node) {
+    if (queue->rear == queue->size - 1) {
+        printf("Queue is full");
+        return;
+    }
+    queue->arr[queue->rear] = node;
+    queue->rear++;
+}
+
+nkAddr deQueue(struct Queue *queue) {
+    if (queue->front == queue->rear) {
+        printf("Queue is empty");
+        return NULL;
+    }
+    nkAddr node = queue->arr[queue->front];
+    queue->front++;
+    return node;
+}
+
+void levelOrderTraversal(nkAddr root) {
+    if (root == NULL) return;
+
+    // Inisialisasi queue
+    struct Queue *queue = initQueue(1000);
+
+    // Tambahkan root ke antrian
+    enQueue(queue, root);
+
+    while (queue->front != queue->rear) {
+        // Hapus node dari queue kemudian print
+        nkAddr node = deQueue(queue);
+        printf("%s -> age : %d | gender : %d | married : %d\n", node->info.name, node->info.age, node->info.gender, node->info.married);
+
+        // Tambahkan semua anak dari node ke antrian
+        nkAddr child = node->fs;
+        while (child != NULL) {
+            enQueue(queue, child);
+        	child = child->nb;
+        }
+    }
+}
