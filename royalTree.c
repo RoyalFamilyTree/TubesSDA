@@ -68,7 +68,7 @@ nkAddr Search(nkAddr root, infoType src){
 	return Nil;
 }
 
-void insertMember(nkTree *tree, nkAddr parent, identity newIdentity){
+void insertMember(struct nkTree *tree, nkAddr parent, identity newIdentity){
     nkAddr newMember = (nkAddr) malloc(sizeof(nkTreeNode));
     newMember->fs = NULL;
     newMember->nb = NULL;
@@ -79,9 +79,12 @@ void insertMember(nkTree *tree, nkAddr parent, identity newIdentity){
     if (parent == NULL) { // jika parent kosong, maka newMember adalah root
         tree->root = newMember;
     } else { // jika parent tidak kosong, maka hubungkan newMember dengan parent
-        if (parent->fs == NULL) {
+        if (parent->partner == NULL) {
+			printf("\nyakali jomblo pengen punya anak\n");
+        } if (parent->fs == NULL && parent->info.age == 19 && parent->partner != NULL)
+		{
             parent->fs = newMember;
-        } else {
+		} else {
             nkAddr sibling = parent->fs;
             while (sibling->nb != NULL) {
                 sibling = sibling->nb;
@@ -94,14 +97,14 @@ void insertMember(nkTree *tree, nkAddr parent, identity newIdentity){
 void InsertNode(nkTree *treeRoot, nkAddr newNode){
 	nkAddr temp;
 	/*Jika belum ada root*/
-	if(parent(newNode)==Nil){
+	if(parent(newNode)==NULL){
 		treeRoot->root=newNode;
 		return;
 	}
 	
-	temp=parent(newNode);
+	temp=newNode->parent;
 	/*Jika tidak memiliki first son*/
-	if(fs(temp)==Nil){
+	if(fs(temp)==NULL){
 		fs(temp)=newNode;
 		return;
 	}
@@ -134,10 +137,10 @@ void InsertNode(nkTree *treeRoot, nkAddr newNode){
 	/*Jika newNode female*/
 	if(gender((&info)newNode)==FEMALE){
 		/*Travers selama next brother male, kemudian travers hingga menemukan next brother yang umurnya lebih muda*/
-		while(nb(temp)!=Nil && gender(((&info)nb)temp) == MALE){
+		while(nb(temp)!=NULL && gender(((&info)nb)temp) == MALE){
 			temp=temp->nb;
 		}
-		while(nb(temp)!=Nil && age((&info)newNode) <= age(((&info)nb)temp)){
+		while(nb(temp)!=NULL && age((&info)newNode) <= age(((&info)nb)temp)){
 			temp=nb(temp);
 		}
 	}
@@ -149,7 +152,7 @@ void InsertNode(nkTree *treeRoot, nkAddr newNode){
 	} 
 	
 	/*Jika prioritas newNode paling rendah*/
-	nb(temp)=newNode;
+	temp->nb=newNode;
 }
 
 void InsertPartner(nkAddr familyMember, pairAddr partner){
@@ -220,53 +223,4 @@ void InsertVPartner(nkTree *pTree){
 	getch();
 }
 
-struct Queue *initQueue(int size) {
-    struct Queue *queue = (struct Queue*)malloc(sizeof(struct Queue));
-    queue->front = 0;
-    queue->rear = 0;
-    queue->size = size;
-    queue->arr = (nkAddr*)malloc(size * sizeof(nkAddr));
-    return queue;
-}
 
-void enQueue(struct Queue *queue, nkAddr node) {
-    if (queue->rear == queue->size - 1) {
-        printf("Queue is full");
-        return;
-    }
-    queue->arr[queue->rear] = node;
-    queue->rear++;
-}
-
-nkAddr deQueue(struct Queue *queue) {
-    if (queue->front == queue->rear) {
-        printf("Queue is empty");
-        return NULL;
-    }
-    nkAddr node = queue->arr[queue->front];
-    queue->front++;
-    return node;
-}
-
-void levelOrderTraversal(nkAddr root) {
-    if (root == NULL) return;
-
-    // Inisialisasi queue
-    struct Queue *queue = initQueue(1000);
-
-    // Tambahkan root ke antrian
-    enQueue(queue, root);
-
-    while (queue->front != queue->rear) {
-        // Hapus node dari queue kemudian print
-        nkAddr node = deQueue(queue);
-        printf("%s -> age : %d | gender : %d | married : %d\n", node->info.name, node->info.age, node->info.gender, node->info.married);
-
-        // Tambahkan semua anak dari node ke antrian
-        nkAddr child = node->fs;
-        while (child != NULL) {
-            enQueue(queue, child);
-        	child = child->nb;
-        }
-    }
-}

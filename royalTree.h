@@ -82,7 +82,7 @@ nkAddr Search(nkAddr root, infoType src);
 /* Jika ada, mengirimkan address node tsb*/
 /* Jika tidak ada, mengirimkan NULL*/
 
-void insertMember(nkTree *tree, nkAddr parent, identity newIdentity);
+void insertMember(struct nkTree *tree, nkAddr parent, identity newIdentity);
 /* IS: tree sembarang, parent sembarang, newIdentity NULL */
 /* FS: Menambahkan node baru yang menunjuk pada sebuah parent dan memiliki sebuah identitas */
 
