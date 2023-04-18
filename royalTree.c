@@ -4,7 +4,7 @@
 #include "royalTree.h"
 
 /*sumber referensi : modul MK SDA Praktik topik 9 Adt Non Binary Tree*/
-void Create_Tree(nkTree *X){ //Create Non Binary Tree
+void Create_Tree(struct nkTree *X){ //Create Non Binary Tree
 	(*X).root=NULL;
 }
 
@@ -16,14 +16,14 @@ nkAddr CreateNode (nkAddr parent, infoType name, int age, boolean gender){
 	nkAddr newNode;
 	newNode = (nkAddr) malloc(sizeof(nkTreeNode));
 
-	if (newNode != Nil){
-		fs(newNode) = Nil;
-		nb(newNode) = Nil;
-		parent(newNode) = Nil;
-        strcpy(name(&info(newNode)), name);
-		age(&info(newNode)) = age;
-        gender(&info(newNode)) = gender;
-		partner(newNode) = Nil;
+	if (newNode != NULL){
+		newNode->fs=NULL;
+		newNode->nb=NULL;
+		newNode->parent=parent;
+		strcpy(newNode->info.name, name);
+		newNode->info.age=age;
+		newNode->info.gender=gender;
+		newNode->partner=NULL;
 	}
 	return newNode;
 }
@@ -32,40 +32,40 @@ pairAddr CreateNPartner (infoType name, int age, boolean gender){
 	pairAddr newNode;
 	newNode = (pairAddr) malloc(sizeof(nkPairNode));
 
-	if (newNode != Nil){
-		strcpy(name(&info(newNode)), name);
-		age(&info(newNode)) = age;
-		gender(&info(newNode)) = gender;
+	if (newNode != NULL){
+		strcpy(newNode->info.name, name);
+		newNode->info.age = age;
+		newNode->info.gender = gender;
 	}
 	return newNode;
 }
 
 void DeleteNode(nkAddr *Node)
 {
-	fs(*Node)=Nil;
-	fs(*Node)-=Nil;
-	parent(*Node)=Nil;
+	(*Node)->fs=NULL;
+	(*Node)->fs=NULL;
+	(*Node)->parent=NULL;
 	free(*Node);
 }
 
 nkAddr Search(nkAddr root, infoType src){
-	nkAddr nSrc;
-	if (root!=Nil){
-        if (strcmp(name(&info(root)), src) == 0) {
+	nkAddr searchNode;
+	if (root!=NULL){
+		if (strcmp(root->info.name, src)==0){
 			return root;
 		}
-		if(partner(root)!=Nil){
-            if (strcmp(name(&info(partner(root))), src) == 0) {
+		if(root->partner!=NULL){
+			if(strcmp(root->partner->info.name, src)==0){
 				return root;
 			}
 		}
-		nSrc=nkSearch(fs(root), src);
-		if (nSrc==Nil)
-			return nkSearch(nb(root),src);
+		nSrc=Search(root->fs,src);
+		if (searchNode==NULL)
+			return Search(root->nb,src);
 		else
-			return nSrc;
+			return searchNode;
 	}
-	return Nil;
+	return NULL;
 }
 
 void insertMember(struct nkTree *tree, nkAddr parent, identity newIdentity){
@@ -97,57 +97,57 @@ void insertMember(struct nkTree *tree, nkAddr parent, identity newIdentity){
 void InsertNode(nkTree *treeRoot, nkAddr newNode){
 	nkAddr temp;
 	/*Jika belum ada root*/
-	if(parent(newNode)==NULL){
+	if(newNode->parent==NULL){
 		treeRoot->root=newNode;
 		return;
 	}
 	
 	temp=newNode->parent;
 	/*Jika tidak memiliki first son*/
-	if(fs(temp)==NULL){
-		fs(temp)=newNode;
+	if(temp->fs==NULL){
+		temp->fs=newNode;
 		return;
 	}
 	
 	/*Bandingkan prioritas fs dengan newNode*/
-	temp=fs(temp);
-	if(gender((&info)newNode)==MALE && gender((&info)temp)==FEMALE){
-		nb(newNode) = fs(temp);
-		fs(temp) = newNode;
+	temp=temp->fs;
+	if(newNode->info.gender==MALE && temp->info.gender==FEMALE){
+		newNode->nb = temp->fs;
+		temp->fs = newNode;
 		return;
 	}
 	
-	if(gender((&info)newNode) ==  gender((&info)temp)){
-		if(age((&info)newNode) > age((&info)temp) ){
-			nb(newNode) = fs(temp)
-			fs(temp) = newNode;
+	if(newNode->info.gender == temp->info.gender){
+		if(newNode->info.age > temp->info.age){
+			newNode->nb = temp->fs;
+			temp->fs = newNode;
 			return;
 		}
 	}
 	
 	/*Jika prioritas newNode lebih rendah daripada fs*/
 	/*Jika newNode male*/
-	if(gender((&info)newNode)==MALE){
+	if(newNode->info.gender==MALE){
 		/*Travers hingga ketemu next brother yang umurnya lebih muda atau yang gendernya female*/
-		while(nb(temp)!=Nil && gender(((&info)nb)temp) == MALE && age((&info)newNode) <= age(((&info)nb)temp)){
-			temp = nb(temp);
+		while(temp->nb!=NULL && temp->nb->info.gender == MALE && newNode->info.age <= temp->nb->info.age){
+			temp = temp->nb;
 		}
 	}
 	
 	/*Jika newNode female*/
-	if(gender((&info)newNode)==FEMALE){
+	if(newNode->info.gender==FEMALE){
 		/*Travers selama next brother male, kemudian travers hingga menemukan next brother yang umurnya lebih muda*/
-		while(nb(temp)!=NULL && gender(((&info)nb)temp) == MALE){
+		while(temp->nb!=NULL && temp->nb->info.gender == MALE){
 			temp=temp->nb;
 		}
-		while(nb(temp)!=NULL && age((&info)newNode) <= age(((&info)nb)temp)){
-			temp=nb(temp);
+		while(temp->nb!=NULL && newNode->info.age <= temp->nb->info.age){
+			temp=temp->nb;
 		}
 	}
 	
-	if(nb(temp)!=Nil){ /*Jika prioritas newNode berada di tengah*/
-		nb(newNode) = nb(temp);
-	    nb(temp) = newNode;
+	if(temp->nb!=NULL){ /*Jika prioritas newNode berada di tengah*/
+		newNode->nb = temp->nb;
+	    temp->nb = newNode;
 	    return;
 	} 
 	
@@ -156,7 +156,7 @@ void InsertNode(nkTree *treeRoot, nkAddr newNode){
 }
 
 void InsertPartner(nkAddr familyMember, pairAddr partner){
-	partner(familyMember) = partner;
+	familyMember->partner = partner;
 }
 
 void InsertVPartner(nkTree *pTree){
@@ -166,25 +166,26 @@ void InsertVPartner(nkTree *pTree){
 	infoType name, partnerName;
 	int age;
 
-    /*Search node*/
-    printf("\tUmur minimal untuk menikah adalah 18 tahun\n");
+	/*Search node*/
+	printf("\tUmur minimal untuk menikah adalah 18 tahun\n");
 	do{
 		printf("\n\t%c Nama anggota keluarga yang akan menikah: ", 175);
 		scanf(" %[^\n]", &name);
-        srcNode=Search((*pTree).root, name);
-        if(srcNode == Nil){
-			printf("\t[Anggota keluarga tidak ditemukan]\n");
-		}else if(partner(srcNode)) != Nil){
-			printf("\t[Menolak Keras poligami]\n");
-		}else if(age((&info)srcNode) < 18){
-			printf("\t[Anggota keluarga tersebut masih dibawah umur]\n");
+		srcNode=Search((*pTree).root, name);
+
+		if(srcNode == NULL){
+			printf("\t[x] Anggota keluarga tidak ditemukan\n");
+		}else if(srcNode->partner != NULL){
+			printf("\t[x] Anggota keluarga tersebut sudah memiliki pasangan\n");
+		}else if(srcNode->info.age < 18){
+			printf("\t[x] Anggota keluarga tersebut masih dibawah umur\n");
 		}else{
 			break;
 		}
 	}while(1);
 
-    /*Get gender*/
-	if(gender(&info(srcNode)) == 0){
+	/*Get gender*/
+	if(srcNode->info.gender == 0){
 		gender = true;
 	}else{
 		gender = false;
@@ -195,7 +196,7 @@ void InsertVPartner(nkTree *pTree){
 		printf("\n\t%c Masukan nama pasangan: ", 175);
 		scanf(" %[^\n]", &partnerName);
 		if(Search((*pTree).root, partnerName)!=NULL){ /*Check jika ada node yg memiliki nama yg sama di tree*/
-			printf("\t[Nama orang tersebut sudah ada pada pohon keluarga]\n");
+			printf("\t[x] Nama orang tersebut sudah ada pada pohon keluarga\n");
 		}else{
 			break;
 		}
@@ -207,7 +208,7 @@ void InsertVPartner(nkTree *pTree){
 		scanf(" %d", &age);
 
 		if(age < 18){
-			printf("\t[Menolak Keras Pedofilia]\n");
+			printf("\t[x] Pasangan masih dibawah umur\n");
 		}else{
 			break;
 		}
@@ -218,9 +219,9 @@ void InsertVPartner(nkTree *pTree){
 
 	/*Insert ke tree*/
 	InsertPartner(srcNode, partner);
-	printf("\n\t[Pasangan berhasil ditambahkan]");
-	printf("\n\t semoga sakinnah mawaddah warrahmah");
+	printf("\n\t[o] Pasangan berhasil ditambahkan");
 	getch();
 }
+	
 
 
