@@ -68,15 +68,11 @@ nkAddr Search(nkAddr root, infoType src);
 /* Jika ada, mengirimkan address node tsb*/
 /* Jika tidak ada, mengirimkan NULL*/
 
-<<<<<<< HEAD
 void insertMember(struct nkTree *tree, nkAddr parent, identity newIdentity);
 /* IS: tree sembarang, parent sembarang, newIdentity NULL */
 /* FS: Menambahkan node baru yang menunjuk pada sebuah parent dan memiliki sebuah identitas */
 
-void InsertNode(nkTree *treeRoot, nkAddr newNode);
-=======
 void InsertNode(struct nkTree *treeRoot, nkAddr newNode);
->>>>>>> e90b1727fa9fa8e574adefb886c6dfaa467f5ead
 /* IS: treeRoot sembarang, newNode sudah dialokasi*/
 /* FS: Menambahkan node ber-address newNode pada tree*/
 
