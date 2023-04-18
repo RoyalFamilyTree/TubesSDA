@@ -8,10 +8,10 @@
 
 int main(){
 	struct nkTree pTree;
-	//CreateNode();
+	//CreateNode(&pTree);
 	nkAddr node;
 	int year;
-	char choose;
+	int choose;
 	char str[]="";
 	char searchname[50];
 	unsigned char choice;
@@ -19,8 +19,7 @@ int main(){
 	printf("\n\n");
 	system("Pause");
 	system("cls");
-	InsertMember(&pTree);
-}
+	//InsertPartner(&pTree);
 	do{
 		system("CLS");
 		printf("\n\n\n\t[1] Tambah anggota keluarga kerajaan\n");
@@ -32,13 +31,22 @@ int main(){
 		printf("\t[7] Jumlah Generasi\n");
 		printf("\t[8] Jumlah Anak\n");
 		printf("\t[0] Exit\n\n");
-		printf("\tPilihan %c ", 175); fflush(stdin); scanf("%c", &choose);
+		printf("\tPilihan %c ", 175); fflush(stdin); scanf("%d", &choose);
 		switch(choose){
 			case '1':
 				system("cls");
-				InsertMember(&pTree);
+				InsertPartner(&pTree);
 				break;
-		}while(choose!=0);
-		 exit(1);	
+			case '0':
+                system("CLS");
+                printf("Program Berakhir\n");
+                system("PAUSE");
+                exit(1);
+                break;
+		}
 	}
+	while(choose!=0);
+		exit(1);	
+	return 0;
 }
+

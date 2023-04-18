@@ -8,7 +8,7 @@ void Create_Tree(struct nkTree *X){ //Create Non Binary Tree
 	(*X).root=NULL;
 }
 
-boolean isEmpty(nkTree X){
+boolean isEmpty(struct nkTree X){
 	return (X.root==NULL);
 }
 
@@ -59,7 +59,7 @@ nkAddr Search(nkAddr root, infoType src){
 				return root;
 			}
 		}
-		nSrc=Search(root->fs,src);
+		searchNode=Search(root->fs,src);
 		if (searchNode==NULL)
 			return Search(root->nb,src);
 		else
@@ -68,33 +68,7 @@ nkAddr Search(nkAddr root, infoType src){
 	return NULL;
 }
 
-void insertMember(struct nkTree *tree, nkAddr parent, identity newIdentity){
-    nkAddr newMember = (nkAddr) malloc(sizeof(nkTreeNode));
-    newMember->fs = NULL;
-    newMember->nb = NULL;
-    newMember->parent = parent;
-    newMember->info = newIdentity;
-    newMember->partner = NULL;
-    
-    if (parent == NULL) { // jika parent kosong, maka newMember adalah root
-        tree->root = newMember;
-    } else { // jika parent tidak kosong, maka hubungkan newMember dengan parent
-        if (parent->partner == NULL) {
-			printf("\nyakali jomblo pengen punya anak\n");
-        } if (parent->fs == NULL && parent->info.age == 19 && parent->partner != NULL)
-		{
-            parent->fs = newMember;
-		} else {
-            nkAddr sibling = parent->fs;
-            while (sibling->nb != NULL) {
-                sibling = sibling->nb;
-            }
-            sibling->nb = newMember;
-        }
-    }
-}
-
-void InsertNode(nkTree *treeRoot, nkAddr newNode){
+void InsertNode(struct nkTree *treeRoot, nkAddr newNode){
 	nkAddr temp;
 	/*Jika belum ada root*/
 	if(newNode->parent==NULL){
@@ -159,7 +133,7 @@ void InsertPartner(nkAddr familyMember, pairAddr partner){
 	familyMember->partner = partner;
 }
 
-void InsertVPartner(nkTree *pTree){
+void InsertVPartner(struct nkTree *pTree){
 	nkAddr srcNode;
 	pairAddr partner;
 	boolean gender;
@@ -224,4 +198,54 @@ void InsertVPartner(nkTree *pTree){
 }
 	
 
+struct Queue *initQueue(int size) {
+    struct Queue *queue = (struct Queue*)malloc(sizeof(struct Queue));
+    queue->front = 0;
+    queue->rear = 0;
+    queue->size = size;
+    queue->arr = (nkAddr*)malloc(size * sizeof(nkAddr));
+    return queue;
+}
+
+void enQueue(struct Queue *queue, nkAddr node) {
+    if (queue->rear == queue->size - 1) {
+        printf("Queue is full");
+        return;
+    }
+    queue->arr[queue->rear] = node;
+    queue->rear++;
+}
+
+nkAddr deQueue(struct Queue *queue) {
+    if (queue->front == queue->rear) {
+        printf("Queue is empty");
+        return NULL;
+    }
+    nkAddr node = queue->arr[queue->front];
+    queue->front++;
+    return node;
+}
+
+void levelOrderTraversal(nkAddr root) {
+    if (root == NULL) return;
+
+    // Inisialisasi queue
+    struct Queue *queue = initQueue(1000);
+
+    // Tambahkan root ke antrian
+    enQueue(queue, root);
+
+    while (queue->front != queue->rear) {
+        // Hapus node dari queue kemudian print
+        nkAddr node = deQueue(queue);
+        printf("%s -> age : %d | gender : %d | married : %d\n", node->info.name, node->info.age, node->info.gender);
+
+        // Tambahkan semua anak dari node ke antrian
+        nkAddr child = node->fs;
+        while (child != NULL) {
+            enQueue(queue, child);
+        	child = child->nb;
+        }
+    }
+}
 
