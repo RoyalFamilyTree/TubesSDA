@@ -49,6 +49,11 @@ struct nkTree{
 	nkAddr root;
 };
 
+struct Queue {
+    int front, rear, size;
+    nkAddr *arr;
+};
+
 /***************************/
 /*  S P E S I F I K A S I  */
 /***************************/
@@ -97,4 +102,10 @@ nkAddr Search(nkAddr root, infoType src);
 /* Jika ada, mengirimkan address node tsb*/
 /* Jika tidak ada, mengirimkan NULL*/
 
+struct Queue *initQueue(int size);
 
+void enQueue(struct Queue *queue, nkAddr node);
+
+nkAddr deQueue(struct Queue *queue);
+
+void levelOrderTraversal(nkAddr root);
