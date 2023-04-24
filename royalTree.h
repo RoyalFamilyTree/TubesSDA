@@ -1,4 +1,4 @@
-//#ifndef royalTree_H
+#ifndef royalTree_H
 #define royalTree_H
 
 #include "boolean.h"
@@ -45,6 +45,7 @@ struct Queue {
 /*  S P E S I F I K A S I  */
 /***************************/
 
+void gotoxy(int, int);
 void Create_Tree(struct nkTree *X);
 // Tujuan mengentrykan Non Binary Tree ke array Isi_Tree dengan pola Level Order 
 // Jml Node adalah banyaknya elemen dalam Tree yang menjadi parameter input
@@ -67,10 +68,6 @@ nkAddr Search(nkAddr root, infoType src);
 /* Mencari apakah ada node dengan infoType src*/
 /* Jika ada, mengirimkan address node tsb*/
 /* Jika tidak ada, mengirimkan NULL*/
-
-void insertMember(struct nkTree *tree, nkAddr parent, identity newIdentity);
-/* IS: tree sembarang, parent sembarang, newIdentity NULL */
-/* FS: Menambahkan node baru yang menunjuk pada sebuah parent dan memiliki sebuah identitas */
 
 void InsertNode(struct nkTree *treeRoot, nkAddr newNode);
 /* IS: treeRoot sembarang, newNode sudah dialokasi*/
@@ -95,3 +92,6 @@ void enQueue(struct Queue *queue, nkAddr node);
 nkAddr deQueue(struct Queue *queue);
 
 void levelOrderTraversal(nkAddr root);
+
+#endif
+
