@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 #include "royalTree.h"
 
 /*sumber referensi : modul MK SDA Praktik topik 9 Adt Non Binary Tree*/
@@ -40,7 +38,7 @@ pairAddr CreateNPartner (infoType name, int age, boolean gender){
 	return newNode;
 }
 
-void DeleteNode(nkAddr *Node)
+void DeallocNode(nkAddr *Node)
 {
 	(*Node)->fs=NULL;
 	(*Node)->fs=NULL;
@@ -249,4 +247,39 @@ void levelOrderTraversal(nkAddr root) {
     }
 }
 
+<<<<<<< HEAD
+void printFromFile(const char* location){
+	FILE *read;
+	char c;
+
+	read=fopen(location, "rt");
+	while((c=fgetc(read))!=EOF){
+		printf("%c", c);
+	}
+
+	fclose(read);
+}
+
+void gotoxy(int X, int y) {
+	COORD coord;
+	coord.X = X;
+	coord.Y = y;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+void loading_screen() {
+	int i;
+	gotoxy(50, 10);
+	printf("Loading...");
+	gotoxy(50, 12);
+	for (i = 0; i <= 17; i++) {
+		Sleep(90);
+		printf("%c", 177);
+	}
+	printf("\n\n");
+	system("pause");
+	system("cls");
+}
+=======
 																																	
+>>>>>>> 89ab17268b0a969c54b25c6718a8ebb62025534e

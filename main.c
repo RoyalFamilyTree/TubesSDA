@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <conio.h>
 #include <windows.h>
@@ -8,45 +9,76 @@
 
 int main(){
 	struct nkTree pTree;
-	//CreateNode(&pTree);
+	Create_Tree(&pTree);
 	nkAddr node;
 	int year;
-	int choose;
+	char choose;
 	char str[]="";
-	char searchname[50];
+	char searchname[20];
 	unsigned char choice;
+	loading_screen();
+	system("cls");
+	printFromFile("ilustrasi/opening.txt");
+	printf("\n\n\t\t");
 	printf(CREATOR);
 	printf("\n\n");
 	system("Pause");
 	system("cls");
-	//InsertPartner(&pTree);
 	do{
-		system("CLS");
-		printf("\n\n\n\t[1] Tambah anggota keluarga kerajaan\n");
-		printf("\t[2] Hapus/turunkan tahta Raja sekarang\n");
-		printf("\t[3] Matikan/hapus anggota keluarga kerajaan\n");
-		printf("\t[4] Tambah pasangan\n");
-		printf("\t[5] Tampilkan informasi keluarga kerajaan\n");
-		printf("\t[6] Tampilkan Silsilah\n");
-		printf("\t[7] Jumlah Generasi\n");
-		printf("\t[8] Jumlah Anak\n");
-		printf("\t[0] Exit\n\n");
+		gotoxy(36, 8);
+        printf("    ************************************************\n");
+        gotoxy(36, 9);
+		printf(" []                                                  []\n");
+        gotoxy(36, 10);
+		printf(" []   [1] Tambah anggota keluarga kerajaan           []\n");
+        gotoxy(36, 11);
+		printf(" []   [2] Tambah pasangan                            []\n");
+		gotoxy(36, 12);
+		printf(" []   [3] Hapus/turunkan tahta Raja sekarang         []\n");
+		gotoxy(36, 13);
+		printf(" []   [4] Matikan/hapus anggota keluarga kerajaan    []\n");
+		gotoxy(36, 14);
+		printf(" []   [5] Tampilkan informasi keluarga kerajaan      []\n");
+		gotoxy(36, 15);
+		printf(" []   [6] Tampilkan Silsilah                         []\n");
+		gotoxy(36, 16);
+		printf(" []   [7] Jumlah Generasi                            []\n");
+		gotoxy(36, 17);
+		printf(" []   [8] Jumlah Anak                                []\n");
+		gotoxy(36, 18);
+		printf(" []   [0] Exit                                       []\n");
+		gotoxy(36, 19);
+	    printf(" []                                                  []\n");
+	    gotoxy(36, 20);
+        printf("  ***************************************************\n");
+        gotoxy(40, 21);
 		printf("\tPilihan %c ", 175); fflush(stdin); scanf("%d", &choose);
+		system("cls");
 		switch(choose){
 			case '1':
 				system("cls");
-				InsertPartner(&pTree);
+				//InsertPartner(&pTree);
+				break;
+			case '2':
+				system("cls");
+				printFromFile("ilustrasi/wedding.txt");
+				InsertVPartner(&pTree);
 				break;
 			case '0':
-                system("CLS");
-                printf("Program Berakhir\n");
-                system("PAUSE");
-                exit(1);
-                break;
+    			system("CLS");
+    			printf("Sukses Keluar dari Program\n");
+    			system("PAUSE");
+    			exit(1);
+    			break;
+    		default:
+				printf("\n\tInput tidak valid");
+				printf("\n\tTekan tombol apapun untuk kembali");
+				getch();
+				break;
 		}
-	}
-	while(choose!=0);
+	}while(choose!=0);
 		exit(1);	
-	return 0;
+		
+return 0;
 }
 

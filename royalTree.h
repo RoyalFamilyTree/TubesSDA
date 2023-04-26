@@ -1,6 +1,12 @@
 #ifndef royalTree_H
 #define royalTree_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <conio.h>
+#include <windows.h>
 #include "boolean.h"
 
 #define MALE 1
@@ -45,53 +51,81 @@ struct Queue {
 /*  S P E S I F I K A S I  */
 /***************************/
 
-void gotoxy(int, int);
-void Create_Tree(struct nkTree *X);
-// Tujuan mengentrykan Non Binary Tree ke array Isi_Tree dengan pola Level Order 
-// Jml Node adalah banyaknya elemen dalam Tree yang menjadi parameter input
+/*********** PROTOTYPE ****************/
+/**** Predikat untuk test keadaan Tree  ****/
 
+//Sumber : Tugas Program Struktur Non Binary Tree SDA-P
+void Create_Tree(struct nkTree *X);
+// Membuat tree kosong
+
+//Dibuat oleh : Adinda
 boolean isEmpty (struct nkTree X);
 /* Mengirimkan true jika Isi_Tree KOSONG */
 
+//Sumber : github 
+//Modifikasi oleh : Adinda
 nkAddr CreateNode (nkAddr parent, infoType name, int age, boolean gender);
 /*Alokasi node*/
-
+ 
+//Dibuat oleh : Adinda
 pairAddr CreateNPartner (infoType name, int age, boolean gender);
 /*Alokasi node partner*/
 
-void DeleteNode(nkAddr *Node);
+//Dibuat oleh : Adinda
+void DeallocNode(nkAddr *Node);
 /*IS : Node terdefinisi*/
 /*FS : Node dikembalikan ke sistem*/
 /* Melakukan dealokasi node*/
 
+//Sumber : github
+//Modifikasi oleh : Adinda
 nkAddr Search(nkAddr root, infoType src);
 /* Mencari apakah ada node dengan infoType src*/
 /* Jika ada, mengirimkan address node tsb*/
 /* Jika tidak ada, mengirimkan NULL*/
 
+//Dibuat oleh : Adinda
 void InsertNode(struct nkTree *treeRoot, nkAddr newNode);
 /* IS: treeRoot sembarang, newNode sudah dialokasi*/
 /* FS: Menambahkan node ber-address newNode pada tree*/
 
-void insertPartner(nkAddr familyMember, pairAddr partner);
+//Dibuat oleh : Adinda
+void InsertPartner(nkAddr familyMember, pairAddr partner);
 /* IS: familyMember sembarang, partner sudah dialokasi*/
 /* FS: Menambahakn node partner ber-address partner pada node familyMember*/
 
+//Dibuat oleh : Adinda
 void InsertVPartner(struct nkTree *myTree);
 /* Menambahkan node partner*/
 
-nkAddr Search(nkAddr root, infoType src);
-/* Mencari apakah ada node dengan nkType src*/
-/* Jika ada, mengirimkan address node tsb*/
-/* Jika tidak ada, mengirimkan NULL*/
+//Dibuat oleh : Adinda
+void printNodeInfo(nkAddr node, infoType name);
+/* IS: node sembarang, name sama dengan node->info.name atau node->partner->info.name*/
+/* FS: Menampilkan nama, umur, jenis kelamin, orang tua, saudara, dan anak dari node jika atribut tersebut ada*/
 
+//Dibuat oleh : Adinda
+void printFromFile(const char* location);
+/* Menampilkan teks pada file yang terdapat pada location*/
+
+//sumber : github
+void gotoxy(int, int);
+
+//Sumber : github
+void loading_screen();
+/*Menampilkan tulisan loading pada layar */
+
+//Dibuat oleh : Welsya
 struct Queue *initQueue(int size);
 
+//Dibuat oleh : Welsya
 void enQueue(struct Queue *queue, nkAddr node);
 
+//Dibuat oleh : Welsya
 nkAddr deQueue(struct Queue *queue);
 
+//Dibuat oleh : Welsya
 void levelOrderTraversal(nkAddr root);
+
 
 #endif
 
