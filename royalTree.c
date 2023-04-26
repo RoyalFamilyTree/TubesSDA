@@ -247,6 +247,7 @@ void levelOrderTraversal(nkAddr root) {
     }
 }
 
+<<<<<<< HEAD
 void printFromFile(const char* location){
 	FILE *read;
 	char c;
@@ -279,3 +280,6 @@ void loading_screen() {
 	system("pause");
 	system("cls");
 }
+=======
+																																	
+>>>>>>> 89ab17268b0a969c54b25c6718a8ebb62025534e
