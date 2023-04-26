@@ -238,7 +238,7 @@ void levelOrderTraversal(nkAddr root) {
     while (queue->front != queue->rear) {
         // Hapus node dari queue kemudian print
         nkAddr node = deQueue(queue);
-        printf("%s -> age : %d | gender : %d | married : %d\n", node->info.name, node->info.age, node->info.gender);
+        printf("[%s] -> age : %d | gender : %d", node->info.name, node->info.age, node->info.gender);
 
         // Tambahkan semua anak dari node ke antrian
         nkAddr child = node->fs;
