@@ -224,6 +224,38 @@ nkAddr deQueue(struct Queue *queue) {
     return node;
 }
 
+void nextKing(nkAddr root) {
+    if (root == NULL) {
+        return;
+    }
+
+    printf("Penerus Takhta:\n"); 
+
+    // Lakukan pengecekan setiap node di dalam tree
+    nkAddr current = root;
+    while (current != NULL) {
+        // Jika memiliki first son, maka print informasi first son tersebut
+        if (current->fs != NULL) {
+            printf("- %s\n", current->fs->info.name);
+        }
+
+        // Pindah ke node berikutnya (preOrder traversal)
+        if (current->fs != NULL) {
+            current = current->fs;
+        } else if (current->nb != NULL) {
+            current = current->nb;
+        } else {
+            while (current != NULL && current->nb == NULL) {
+                current = current->parent;
+            }
+
+            if (current != NULL) {
+                current = current->nb;
+            }
+        }
+    }
+}
+
 void levelOrderTraversal(nkAddr root) {
     if (root == NULL) return;
 
@@ -232,22 +264,87 @@ void levelOrderTraversal(nkAddr root) {
 
     // Tambahkan root ke antrian
     enQueue(queue, root);
-
+    
+    // Inisialisasi variabel level dan gotoxy
+    int level = 1;
+    
     while (queue->front != queue->rear) {
-        // Hapus node dari queue kemudian print
-        nkAddr node = deQueue(queue);
-        printf("[%s] -> age : %d | gender : %d", node->info.name, node->info.age, node->info.gender);
-
-        // Tambahkan semua anak dari node ke antrian
-        nkAddr child = node->fs;
-        while (child != NULL) {
-            enQueue(queue, child);
-        	child = child->nb;
+        // Cetak level
+        printf("Generasi %d:\n", level);
+        
+        // Tambahkan semua node pada level ini ke antrian
+        int levelSize = queue->rear - queue->front; // levelSize diisi oleh ukuran queue
+        for (int i = 0; i < levelSize; i++) {
+            nkAddr node = deQueue(queue);
+            if (node->partner == NULL) {
+				printf("------------------------------------\n");
+				printf("|  [%s] -> age : %d , gender : %d  |-----> Belum ada partner :(\n", node->info.name, node->info.age, node->info.gender);
+				printf("------------------------------------\n");
+        	} else { // Jika sudah memiliki pasangan maka tampilkan beserta pasangannya
+				printf("------------------------------------\n");
+				printf("|  [%s] -> age : %d , gender : %d  |----->\n", node->info.name, node->info.age, node->info.gender);
+				printf("------------------------------------\n");
+	            
+				printf("------------------------------------\n");
+				printf("|  [%s] -> age : %d , gender : %d  |\n", node->partner->info.name, node->partner->info.age, node->partner->info.gender);
+				printf("------------------------------------\n");
+        		
+			}
+			
+            // Tambahkan semua anak dari node ke antrian
+            nkAddr child = node->fs;
+            while (child != NULL) {
+                enQueue(queue, child);
+                child = child->nb;
+            }
         }
+        printf("\n");	
+        // Naikkan level
+        level++;
     }
 }
 
-<<<<<<< HEAD
+int getGeneration(nkAddr root, infoType x) {
+    if (root == NULL) {
+        return -1;
+    }
+
+    int level = 1;
+    nkAddr currentNode = root;
+    if (currentNode->info.name == x) {
+    	return level;
+    	level++;
+	}
+	level++;
+    while (currentNode != NULL) {
+        nkAddr childNode = currentNode->fs;
+        while (childNode != NULL) {
+            if (childNode->info.name == x) {
+                return level;
+            }
+            childNode = childNode->nb;
+        }
+        currentNode = currentNode->fs;
+        level++;
+    }
+    return -1;
+}
+
+int Depth (nkAddr P){
+    if (P == NULL) {
+        return 0;
+    } else {
+        int max_depth = -1;
+        for (nkAddr child = P->fs; child != NULL; child = child->nb) {
+            int current_depth = Depth(child);
+            if (current_depth > max_depth) {
+                max_depth = current_depth;
+            }
+        }
+        return max_depth + 1;
+    }
+}
+
 void printFromFile(const char* location){
 	FILE *read;
 	char c;
@@ -280,6 +377,3 @@ void loading_screen() {
 	system("pause");
 	system("cls");
 }
-=======
-																																	
->>>>>>> 89ab17268b0a969c54b25c6718a8ebb62025534e
