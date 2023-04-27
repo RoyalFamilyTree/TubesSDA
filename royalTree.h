@@ -85,6 +85,12 @@ nkAddr Search(nkAddr root, infoType src);
 /* Jika tidak ada, mengirimkan NULL*/
 
 //Dibuat oleh : Fikri
+void InsertKing(struct nkTree *pTree);
+/* IS: pTree kosong*/
+/* FS: Meminta input identitas node dari user, mengalokasi node dan menjadikannya root tree*/
+/* Menambahkan node raja/ ratu*/
+
+//Dibuat oleh : Fikri
 void InputMember();
 /* IS: data subvar newNode belum diketahui*/
 /* FS: data subvar newNode terinput oleh user*/
@@ -94,8 +100,9 @@ void InsertNode(struct nkTree *treeRoot, nkAddr newNode);
 /* IS: treeRoot sembarang, newNode sudah dialokasi*/
 /* FS: Menambahkan node ber-address newNode pada tree*/
 
-//Dibuat oleh : Fikri
-void InputMember ();
+//Dibuat oleh : Adinda
+void printTree(nkAddr node, char tab[]);
+/* Menampilkan tree pada program secara preorder*/
 
 //Dibuat oleh : Adinda
 void InsertPartner(nkAddr familyMember, pairAddr partner);
@@ -105,17 +112,6 @@ void InsertPartner(nkAddr familyMember, pairAddr partner);
 //Dibuat oleh : Adinda
 void InsertVPartner(struct nkTree *myTree);
 /* Menambahkan node partner*/
-
-//Dibuat oleh : Adinda
-void printFromFile(const char* location);
-/* Menampilkan teks pada file yang terdapat pada location*/
-
-//sumber : github
-void gotoxy(int, int);
-
-//Sumber : github
-void loading_screen();
-/*Menampilkan tulisan loading pada layar */
 
 //Dibuat oleh : Welsya
 struct Queue *initQueue(int size);
@@ -128,6 +124,17 @@ nkAddr deQueue(struct Queue *queue);
 
 //Dibuat oleh : Welsya
 void levelOrderTraversal(nkAddr root);
+
+//Dibuat oleh : Adinda
+void printFromFile(const char* location);
+/* Menampilkan teks pada file yang terdapat pada location*/
+
+//sumber : github
+void gotoxy(int, int);
+
+//Sumber : github
+void loading_screen();
+/*Menampilkan tulisan load*/
 
 
 #endif

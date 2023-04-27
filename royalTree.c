@@ -1,4 +1,3 @@
-
 #include "royalTree.h"
 
 /*sumber referensi : modul MK SDA Praktik topik 9 Adt Non Binary Tree*/
@@ -66,32 +65,47 @@ nkAddr Search(nkAddr root, infoType src){
 	return NULL;
 }
 
-void InputMember(){
-	struct nkTree tree;
-    tree.root = NULL;
+void InsertKing(struct nkTree *pTree){
+	nkAddr king;
+	infoType name;
+	int age, temp;
+	boolean gender;
+	
+	/*Input nama*/
+	gotoxy(44, 8); printf("[o] Masukan Identitas Raja/ Ratu : [o]");
+	gotoxy(40, 10);	printf("%c Nama: ", 175);
+	scanf(" %[^\n]", &name);
+	
+	/*Insert jenis kelamin*/
+	do{
+		gotoxy(40, 12); printf("%c Pilih jenis kelamin", 175);
+		gotoxy(40, 13); printf("0. Wanita");
+		gotoxy(40, 14); printf("1. Pria");
+		gotoxy(40, 15); printf("%c Pilihan: ", 175);
+		scanf(" %d", &temp);
+		if(temp != 0 && temp != 1){
+			gotoxy(40, 16); printf("[x] Input tidak valid [x]");
+		}else{
+			gender = temp;
+			break;
+		}
+	}while(1);
+	/*Insert umur raja atau ratu*/
+	do{
+		gotoxy(40, 17); printf("%c Umur (Minimal 50 tahun maksimal 79 tahun): ", 175);
+		scanf(" %d", &age);
+		if(age < 50 || age >=80){
+			gotoxy(44, 18); printf("[x] Input tidak valid [x]");
+		}
+	}while(age < 50 || age >=80);
 
-    // Menerima input dari pengguna untuk membuat node baru
-    int age, gender;
-    infoType name;
-    printf("Masukkan data node baru:\n");
-    printf("Nama: ");
-    scanf("%s", &name);
-    printf("Usia: ");
-    scanf("%d", &age);
-    printf("Jenis Kelamin (1 untuk Laki-laki, 0 untuk Perempuan): ");
-    scanf("%d", &gender);
+	/*Alokasi node*/
+	king = CreateNode(NULL, name, age, gender);
 
-    // Membuat node baru dengan data yang diterima dari pengguna
-    nkAddr newNode = (nkAddr)malloc(sizeof(nkAddr));
-    strcpy(newNode->info.name, name);
-    newNode->info.age = age;
-    newNode->info.gender = gender == 1 ? MALE : FEMALE;
-    newNode->parent = NULL;
-    newNode->fs = NULL;
-    newNode->nb = NULL;
-
-    // Memasukkan node baru ke dalam pohon
-    InsertNode(&tree, newNode);
+	/*Insert ke tree*/
+	InsertNode(pTree, king);
+	gotoxy(44, 20); printf("[o] Raja/ ratu berhasil ditambahkan [o]");
+	getch();
 }
 
 void InsertNode(struct nkTree *treeRoot, nkAddr newNode){
@@ -155,6 +169,97 @@ void InsertNode(struct nkTree *treeRoot, nkAddr newNode){
 	temp->nb=newNode;
 }
 
+void printTree(nkAddr node, char tab[]) {
+    char newTab[255];
+    strcpy(newTab, tab);
+    strcat(newTab, "-");
+    
+    if (node != NULL) {
+        if (node->partner != NULL) {
+            printf("\t\t\t\t\t%s%s [%d] [%s] x %s [%d] [%s]\n", tab, &(node->info.name), node->info.age, node->info.gender ? "P" : "W", &(node->partner->info.name), node->partner->info.age, node->partner->info.gender ? "P" : "W");
+        } else {
+            printf("\t\t\t\t\t%s%s [%d] [%s]\n", tab, &(node->info.name), node->info.age, node->info.gender ? "P" : "W");
+        }
+        printTree(node->fs, newTab);
+        printTree(node->nb, tab);
+    }
+}
+
+void InputMember(struct nkTree *pTree){
+    nkAddr parentNode, newNode;
+
+    // Menerima input dari pengguna untuk membuat node baru
+    int temp;
+	int age; 
+	boolean gender;
+    infoType name, parentName;
+    
+    /*cari parent*/
+    gotoxy(40, 6); printf("Masukan 'q' untuk kembali");
+    do{
+    	gotoxy(40,9); printf("%c Nama orang tua: ", 175);
+		scanf(" %[^\n]", &parentName);
+		if(strcmp(parentName, "q")==0){
+			return;
+		}
+		parentNode = Search((*pTree).root, parentName);
+		if(parentNode == NULL){
+			gotoxy(40,10); printf("[x] Nama orang tua tidak ditemukan [x]");
+		}else if(parentNode->partner == NULL){
+			gotoxy(40,10); printf("[x] Orang tersebut tidak memiliki pasangan [x]");
+		}else{
+			break;
+		}
+	}while(1);
+    	
+    /*Input nama*/
+    do{
+    	gotoxy(40,13); printf("%c Masukkan nama: ", 175);
+    	scanf(" %[^\n]", &name);
+    	if(Search((*pTree).root, name)!=NULL){ /*Check jika ada node yg memiliki nama yg sama di tree*/
+			gotoxy(40,14); printf("[x] Nama orang tersebut sudah ada pada pohon keluarga [x]");
+		}else{
+			break;
+		}
+	}while(1);
+	
+	/*Input usia*/
+	do{
+		gotoxy(40,15); printf("%c Usia anak minimal 19 tahun lebih muda dari kedua orang tua", 175);
+		gotoxy(40,16); printf("%c Masukan usia: ", 175);
+		scanf(" %d", &age);
+		if(age >= 1 && age <= parentNode->info.age - 19 && age <= parentNode->partner->info.age - 19){ //Umur minimal 19 tahun lebih muda dari parent
+			break;
+		}else{
+			gotoxy(40,17); printf("--- Input tidak valid ---");
+		}
+	}while(1);
+   	
+	/*Input jenis kelamin*/
+	do{
+		gotoxy(40,17); printf("%c Pilih jenis kelamin", 175);
+		gotoxy(40,18); printf("0. Wanita"); 
+		gotoxy(40,19); printf("1. Pria"); 
+		gotoxy(40,20); printf("%c Pilihan: ", 175);
+		scanf(" %d", &temp);
+		if(temp != 0 && temp != 1){
+			gotoxy(40,21); printf("[x] Input tidak valid [x]");
+		}else{
+			gender = temp;
+			break;
+		}
+	}while(1);
+	
+     /* Membuat node baru dengan data yang diterima dari pengguna */
+	newNode = CreateNode(parentNode, name, age, gender);
+
+    // Memasukkan node baru ke dalam pohon
+    InsertNode(pTree, newNode);
+    gotoxy(40, 23); printf("[o] Anggota keluarga berhasil ditambahkan [o]");
+ 
+	getch();
+}
+
 void InsertPartner(nkAddr familyMember, pairAddr partner){
 	familyMember->partner = partner;
 }
@@ -167,22 +272,18 @@ void InsertVPartner(struct nkTree *pTree){
 	int age;
 
 	/*Search node*/
-	gotoxy(38, 8);
-	printf("Umur minimal untuk menikah adalah 18 tahun");
+	gotoxy(43, 11); printf("Umur minimal untuk menikah adalah 18 tahun");
 	do{
-		gotoxy(38, 9);
-		printf("%c Nama anggota keluarga yang akan menikah: ", 175);
+		gotoxy(38, 12); printf("%c Nama anggota keluarga yang akan menikah: ", 175);
 		scanf(" %[^\n]", &name);
 		srcNode=Search((*pTree).root, name);
 
 		if(srcNode == NULL){
-			gotoxy(38, 9);
-			printf("--- Anggota keluarga tidak ditemukan ---");
+			gotoxy(38, 13); printf("[x] Anggota keluarga tidak ditemukan [x]");
 		}else if(srcNode->partner != NULL){
-			gotoxy(38, 10);
-			printf("--- Anggota keluarga tersebut sudah memiliki pasangan ---");
+			gotoxy(38, 13); printf("[x] Anggota keluarga tersebut sudah memiliki pasangan [x]");
 		}else if(srcNode->info.age < 18){
-			printf("--- Pasangan tersebut masih dibawah umur ---");
+			gotoxy(38, 13); printf("[x] Pasangan tersebut masih dibawah umur [x]");
 		}else{
 			break;
 		}
@@ -197,26 +298,23 @@ void InsertVPartner(struct nkTree *pTree){
 
 	/*Insert identitas partner*/
 	do{
-		gotoxy(38, 12);
-		printf("%c Masukan nama pasangan: ", 175);
+		gotoxy(38, 14); printf("%c Masukan nama pasangan: ", 175);
 		scanf(" %[^\n]", &partnerName);
 		if(Search((*pTree).root, partnerName)!=NULL){ /*Check jika ada node yg memiliki nama yg sama di tree*/
-			gotoxy(38, 13);
-			printf("--- Nama orang tersebut sudah ada pada pohon keluarga ---");
+			gotoxy(38, 15);
+			printf("[x] Nama orang tersebut sudah ada pada pohon keluarga [x]");
 		}else{
 			break;
 		}
 	}while(1);
 	do{
 		fflush(stdin);
-		gotoxy(38, 14);
-		printf("Umur pasangan minimal 18 tahun");
-		printf("%c Masukan umur pasangan: ", 175);
+		gotoxy(48, 16); printf("Umur pasangan minimal 18 tahun");
+		gotoxy(38, 17);printf("%c Masukan umur pasangan: ", 175);
 		scanf(" %d", &age);
 
 		if(age < 18){
-			gotoxy(38, 15);
-			printf("--- Pasangan masih dibawah umur ---");
+			gotoxy(38, 18); printf("[x] Pasangan masih dibawah umur [x]");
 		}else{
 			break;
 		}
@@ -227,8 +325,7 @@ void InsertVPartner(struct nkTree *pTree){
 
 	/*Insert ke tree*/
 	InsertPartner(srcNode, partner);
-	gotoxy(38, 17);
-	printf("[o] Pasangan berhasil ditambahkan [o]");
+	gotoxy(44, 19); printf("[o] Pasangan berhasil ditambahkan [o]");
 	getch();
 }
 	
@@ -244,7 +341,7 @@ struct Queue *initQueue(int size) {
 
 void enQueue(struct Queue *queue, nkAddr node) {
     if (queue->rear == queue->size - 1) {
-        printf("Queue is full");
+        printf("[x] Queue is full [x]");
         return;
     }
     queue->arr[queue->rear] = node;
@@ -253,7 +350,7 @@ void enQueue(struct Queue *queue, nkAddr node) {
 
 nkAddr deQueue(struct Queue *queue) {
     if (queue->front == queue->rear) {
-        printf("Queue is empty");
+        printf("[x] Queue is empty [x]");
         return NULL;
     }
     nkAddr node = queue->arr[queue->front];
@@ -405,8 +502,7 @@ void gotoxy(int X, int y) {
 
 void loading_screen() {
 	int i;
-	gotoxy(50, 10);
-	printf("Loading...");
+	gotoxy(50, 10); printf("Loading...");
 	gotoxy(50, 12);
 	for (i = 0; i <= 17; i++) {
 		Sleep(90);
@@ -415,8 +511,5 @@ void loading_screen() {
 	printf("\n\n");
 	system("pause");
 	system("cls");
-<<<<<<< HEAD
-}																								
-=======
 }
->>>>>>> c591b9c1e72dd88bcb9e50af5452d52193e48064
+
