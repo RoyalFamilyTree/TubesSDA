@@ -24,6 +24,14 @@ int main(){
 	printf("\n\n");
 	system("Pause");
 	system("cls");
+	printFromFile("ilustrasi/AturanPenurunanTahta.txt");
+	printf("\n\n");
+	system("Pause");
+	system("cls");
+	printFromFile("ilustrasi/AturanPenambahanAnggota.txt");
+	printf("\n\n");
+	system("Pause");
+	system("cls");
 	do{
 		gotoxy(36, 8);
         printf("    ************************************************\n");
@@ -55,16 +63,17 @@ int main(){
 		printf("\tPilihan %c ", 175); fflush(stdin); scanf("%d", &choose);
 		system("cls");
 		switch(choose){
-			case '1':
+			case 1:
 				system("cls");
+				printf("hi");
 				//InsertPartner(&pTree);
 				break;
-			case '2':
+			case 2:
 				system("cls");
 				printFromFile("ilustrasi/wedding.txt");
 				InsertVPartner(&pTree);
 				break;
-			case '0':
+			case 0:
     			system("CLS");
     			printf("Sukses Keluar dari Program\n");
     			system("PAUSE");
