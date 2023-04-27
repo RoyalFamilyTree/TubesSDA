@@ -24,6 +24,14 @@ int main(){
 	printf("\n\n");
 	system("Pause");
 	system("cls");
+	printFromFile("ilustrasi/AturanPenurunanTahta.txt");
+	printf("\n\n");
+	system("Pause");
+	system("cls");
+	printFromFile("ilustrasi/AturanPenambahanAnggota.txt");
+	printf("\n\n");
+	system("Pause");
+	system("cls");
 	do{
 		gotoxy(36, 8);
         printf("    ************************************************\n");
@@ -57,7 +65,8 @@ int main(){
 		switch(choose){
 			case 1:
 				system("cls");
-				//InsertPartner(&pTree);
+				printf("hi");
+				InputMember();
 				break;
 			case 2:
 				system("cls");

@@ -84,6 +84,11 @@ nkAddr Search(nkAddr root, infoType src);
 /* Jika ada, mengirimkan address node tsb*/
 /* Jika tidak ada, mengirimkan NULL*/
 
+//Dibuat oleh : Fikri
+void InputMember();
+/* IS: data subvar newNode belum diketahui*/
+/* FS: data subvar newNode terinput oleh user*/
+
 //Dibuat oleh : Adinda
 void InsertNode(struct nkTree *treeRoot, nkAddr newNode);
 /* IS: treeRoot sembarang, newNode sudah dialokasi*/

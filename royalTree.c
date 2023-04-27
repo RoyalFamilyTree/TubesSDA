@@ -66,6 +66,34 @@ nkAddr Search(nkAddr root, infoType src){
 	return NULL;
 }
 
+void InputMember(){
+	struct nkTree tree;
+    tree.root = NULL;
+
+    // Menerima input dari pengguna untuk membuat node baru
+    int age, gender;
+    infoType name;
+    printf("Masukkan data node baru:\n");
+    printf("Nama: ");
+    scanf("%s", &name);
+    printf("Usia: ");
+    scanf("%d", &age);
+    printf("Jenis Kelamin (1 untuk Laki-laki, 0 untuk Perempuan): ");
+    scanf("%d", &gender);
+
+    // Membuat node baru dengan data yang diterima dari pengguna
+    nkAddr newNode = (nkAddr)malloc(sizeof(nkAddr));
+    strcpy(newNode->info.name, name);
+    newNode->info.age = age;
+    newNode->info.gender = gender == 1 ? MALE : FEMALE;
+    newNode->parent = NULL;
+    newNode->fs = NULL;
+    newNode->nb = NULL;
+
+    // Memasukkan node baru ke dalam pohon
+    InsertNode(&tree, newNode);
+}
+
 void InsertNode(struct nkTree *treeRoot, nkAddr newNode){
 	nkAddr temp;
 	/*Jika belum ada root*/
@@ -233,26 +261,126 @@ nkAddr deQueue(struct Queue *queue) {
     return node;
 }
 
+void nextKing(nkAddr root) {
+    if (root == NULL) {
+        return;
+    }
+
+    printf("Penerus Takhta:\n"); 
+
+    // Lakukan pengecekan setiap node di dalam tree
+    nkAddr current = root;
+    while (current != NULL) {
+        // Jika memiliki first son, maka print informasi first son tersebut
+        if (current->fs != NULL) {
+            printf("- %s\n", current->fs->info.name);
+        }
+
+        // Pindah ke node berikutnya (preOrder traversal)
+        if (current->fs != NULL) {
+            current = current->fs;
+        } else if (current->nb != NULL) {
+            current = current->nb;
+        } else {
+            while (current != NULL && current->nb == NULL) {
+                current = current->parent;
+            }
+
+            if (current != NULL) {
+                current = current->nb;
+            }
+        }
+    }
+}
+
 void levelOrderTraversal(nkAddr root) {
     if (root == NULL) return;
 
     // Inisialisasi queue
     struct Queue *queue = initQueue(1000);
-
+	
+	nkAddr node = deQueue(queue);
+	
     // Tambahkan root ke antrian
     enQueue(queue, root);
-
+    
+    // Inisialisasi variabel level dan gotoxy
+    int level = 1;
+    
     while (queue->front != queue->rear) {
-        // Hapus node dari queue kemudian print
-        nkAddr node = deQueue(queue);
-        printf("%s -> age : %d | gender : %d | married : %d\n", node->info.name, node->info.age, node->info.gender);
-
-        // Tambahkan semua anak dari node ke antrian
-        nkAddr child = node->fs;
-        while (child != NULL) {
-            enQueue(queue, child);
-        	child = child->nb;
+        // Cetak level
+        printf("Generasi %d:\n", level);
+        int i;
+        // Tambahkan semua node pada level ini ke antrian
+        int levelSize = queue->rear - queue->front; // levelSize diisi oleh ukuran queue
+        for (i = 0; i < levelSize; i++) {
+            if (node->partner == NULL) {
+				printf("------------------------------------\n");
+				printf("|  [%s] -> age : %d , gender : %d  |-----> Belum ada partner :(\n", node->info.name, node->info.age, node->info.gender);
+				printf("------------------------------------\n");
+        	} else { // Jika sudah memiliki pasangan maka tampilkan beserta pasangannya
+				printf("------------------------------------\n");
+				printf("|  [%s] -> age : %d , gender : %d  |----->\n", node->info.name, node->info.age, node->info.gender);
+				printf("------------------------------------\n");
+	            
+				printf("------------------------------------\n");
+				printf("|  [%s] -> age : %d , gender : %d  |\n", node->partner->info.name, node->partner->info.age, node->partner->info.gender);
+				printf("------------------------------------\n");
+        		
+			}
+			
+            // Tambahkan semua anak dari node ke antrian
+            nkAddr child = node->fs;
+            while (child != NULL) {
+                enQueue(queue, child);
+                child = child->nb;
+            }
         }
+        printf("\n");	
+        // Naikkan level
+        level++;
+    }
+}
+
+int getGeneration(nkAddr root, infoType x) {
+    if (root == NULL) {
+        return -1;
+    }
+
+    int level = 1;
+    nkAddr currentNode = root;
+    if (currentNode->info.name == x) {
+    	return level;
+    	level++;
+	}
+	level++;
+    while (currentNode != NULL) {
+        nkAddr childNode = currentNode->fs;
+        while (childNode != NULL) {
+            if (childNode->info.name == x) {
+                return level;
+            }
+            childNode = childNode->nb;
+        }
+        currentNode = currentNode->fs;
+        level++;
+    }
+    return -1;
+}
+
+int Depth (nkAddr P){
+    if (P == NULL) {
+        return 0;
+    } else {
+        int max_depth = -1;
+        nkAddr child;
+        for (child = P->fs; child != NULL; child = child->nb) {
+            int current_depth = Depth(child);
+            if (current_depth > max_depth) {
+                max_depth = current_depth;
+            }
+        }
+        return max_depth + 1;
     }
 }
 
@@ -287,4 +415,8 @@ void loading_screen() {
 	printf("\n\n");
 	system("pause");
 	system("cls");
+<<<<<<< HEAD
 }																								
+=======
+}
+>>>>>>> c591b9c1e72dd88bcb9e50af5452d52193e48064
