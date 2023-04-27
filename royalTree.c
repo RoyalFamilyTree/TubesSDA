@@ -260,6 +260,117 @@ void InputMember(struct nkTree *pTree){
 	getch();
 }
 
+void DeleteNode(nkAddr root) {
+	infoType target;
+	
+	printf("Ketik nama anggota yang akan dihapus: ");
+	scanf("%s", &target);
+	
+    nkAddr parent = NULL;
+    nkAddr node = Search(root, target);
+    
+    // If target node not found, return
+    if (node == NULL) {
+        return;
+    }
+    
+    // Find parent node of the target node
+    if (node != root) {
+        parent = FindParent(root, node);
+    }
+    
+    // If target node has no child nodes
+    if (node->fs == NULL && node->nb == NULL) {
+        // If the target node is the root node
+        if (node == root) {
+            DeallocNode(&node);
+            root = NULL;
+            return;
+        }
+        // If the target node is a child node
+        if (node == parent->fs) {
+            parent->fs = NULL;
+        } else {
+            parent->nb = NULL;
+        }
+        DeallocNode(&node);
+        return;
+    }
+    
+    // If target node has only one child node
+    if (node->fs != NULL && node->nb == NULL) {
+        // If the target node is the root node
+        if (node == root) {
+            nkAddr temp = node->fs;
+            DeallocNode(&node);
+            root = temp;
+            return;
+        }
+        // If the target node is a child node
+        if (node == parent->fs) {
+            parent->fs = node->fs;
+        } else {
+            parent->nb = node->fs;
+        }
+        DeallocNode(&node);
+        return;
+    }
+    if (node->fs == NULL && node->nb != NULL) {
+        // If the target node is the root node
+        if (node == root) {
+            nkAddr temp = node->nb;
+            DeallocNode(&node);
+            root = temp;
+            return;
+        }
+        // If the target node is a child node
+        if (node == parent->fs) {
+            parent->fs = node->nb;
+        } else {
+            parent->nb = node->nb;
+        }
+        DeallocNode(&node);
+        return;
+    }
+    
+    // If target node has two child nodes
+    nkAddr successor = FindSuccessor(root, node);
+    nkAddr successorParent = FindParent(root, successor);
+    // Copy successor's info to target node
+    node->info = successor->info;
+    // Remove successor node from the tree
+    if (successor == successorParent->fs) {
+        successorParent->fs = successor->nb;
+    } else {
+        nkAddr temp = successor->nb;
+        successorParent->nb = temp;
+    }
+    DeallocNode(&successor);
+}
+
+nkAddr FindParent(nkAddr root, nkAddr node) {
+    if (root == NULL || root == node) {
+        return NULL;
+    }
+    if (root->fs == node || root->nb == node) {
+        return root;
+    }
+    nkAddr parent = FindParent(root->fs, node);
+    if (parent != NULL) {
+        return parent;
+    }
+    return FindParent(root->nb, node);
+}
+
+nkAddr FindSuccessor(nkAddr root, nkAddr node) {
+    nkAddr current = node->fs;
+    while (current != NULL && current->nb != NULL) {
+        current = current->nb;
+    }
+    return current;
+}
+
+
 void InsertPartner(nkAddr familyMember, pairAddr partner){
 	familyMember->partner = partner;
 }

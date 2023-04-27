@@ -88,7 +88,8 @@ int main(){
 				break;
 			case 4:
 				system("cls");
-				printf("sabar juga ya modul deletenya belum jadi\n");
+				DeleteNode(pTree.root);
+//				printf("sabar juga ya modul deletenya belum jadi\n");
 				break;
 			case 5:
 				system("cls");

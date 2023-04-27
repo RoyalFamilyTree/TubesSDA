@@ -95,6 +95,21 @@ void InputMember();
 /* IS: data subvar newNode belum diketahui*/
 /* FS: data subvar newNode terinput oleh user*/
 
+//Dibuat oleh : Fikri
+void DeleteNode(nkAddr root);
+/* IS: node member dengan info sembarang tersedia/tidak tersedia */
+/* FS: apabila node member dengan info sembarang tersedia, maka akan terhapus. apabila tidak tersedia, muncul output "nama anggota tidak tersedia"*/
+
+//Dibuat oleh : Fikri
+nkAddr FindParent(nkAddr root, nkAddr node);
+/* IS: pointer nkAddr root dan pointer nkAddr node yang akan dicari induknya.*/
+/* FS: pointer nkAddr yang menunjuk pada node induk dari node target. Jika tidak ditemukan, akan mengembalikan NULL.*/
+
+//Dibuat oleh : Fikri
+nkAddr FindSuccessor(nkAddr root, nkAddr node);
+/* IS: pointer nkAddr root dan pointer nkAddr node yang akan dicari penggantinya. */
+/* FS: pointer nkAddr yang menunjuk pada node pengganti. Jika tidak ditemukan pengganti, akan mengembalikan NULL. */
+
 //Dibuat oleh : Adinda
 void InsertNode(struct nkTree *treeRoot, nkAddr newNode);
 /* IS: treeRoot sembarang, newNode sudah dialokasi*/
