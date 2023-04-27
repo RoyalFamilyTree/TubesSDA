@@ -125,7 +125,6 @@ nkAddr deQueue(struct Queue *queue);
 //Dibuat oleh : Welsya
 void levelOrderTraversal(nkAddr root);
 
-<<<<<<< HEAD
 //Dibuat oleh : Adinda
 void printFromFile(const char* location);
 /* Menampilkan teks pada file yang terdapat pada location*/
@@ -136,11 +135,6 @@ void gotoxy(int, int);
 //Sumber : github
 void loading_screen();
 /*Menampilkan tulisan load*/
-
-=======
-int Depth (nkAddr P);
-void nextKing(nkAddr root);
->>>>>>> 25af7116f59c8c42f42017c7501ff2e7f8df64e5
 
 #endif
 
