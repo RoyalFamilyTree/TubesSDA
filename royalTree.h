@@ -94,6 +94,9 @@ void InsertNode(struct nkTree *treeRoot, nkAddr newNode);
 /* IS: treeRoot sembarang, newNode sudah dialokasi*/
 /* FS: Menambahkan node ber-address newNode pada tree*/
 
+//Dibuat oleh : Fikri
+void InputMember ();
+
 //Dibuat oleh : Adinda
 void InsertPartner(nkAddr familyMember, pairAddr partner);
 /* IS: familyMember sembarang, partner sudah dialokasi*/
@@ -102,11 +105,6 @@ void InsertPartner(nkAddr familyMember, pairAddr partner);
 //Dibuat oleh : Adinda
 void InsertVPartner(struct nkTree *myTree);
 /* Menambahkan node partner*/
-
-//Dibuat oleh : Adinda
-void printNodeInfo(nkAddr node, infoType name);
-/* IS: node sembarang, name sama dengan node->info.name atau node->partner->info.name*/
-/* FS: Menampilkan nama, umur, jenis kelamin, orang tua, saudara, dan anak dari node jika atribut tersebut ada*/
 
 //Dibuat oleh : Adinda
 void printFromFile(const char* location);
