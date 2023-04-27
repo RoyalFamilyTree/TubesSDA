@@ -139,18 +139,22 @@ void InsertVPartner(struct nkTree *pTree){
 	int age;
 
 	/*Search node*/
-	printf("\tUmur minimal untuk menikah adalah 18 tahun\n");
+	gotoxy(38, 8);
+	printf("Umur minimal untuk menikah adalah 18 tahun");
 	do{
-		printf("\n\t%c Nama anggota keluarga yang akan menikah: ", 175);
+		gotoxy(38, 9);
+		printf("%c Nama anggota keluarga yang akan menikah: ", 175);
 		scanf(" %[^\n]", &name);
 		srcNode=Search((*pTree).root, name);
 
 		if(srcNode == NULL){
-			printf("\t[x] Anggota keluarga tidak ditemukan\n");
+			gotoxy(38, 9);
+			printf("--- Anggota keluarga tidak ditemukan ---");
 		}else if(srcNode->partner != NULL){
-			printf("\t[x] Anggota keluarga tersebut sudah memiliki pasangan\n");
+			gotoxy(38, 10);
+			printf("--- Anggota keluarga tersebut sudah memiliki pasangan ---");
 		}else if(srcNode->info.age < 18){
-			printf("\t[x] Anggota keluarga tersebut masih dibawah umur\n");
+			printf("--- Pasangan tersebut masih dibawah umur ---");
 		}else{
 			break;
 		}
@@ -165,22 +169,26 @@ void InsertVPartner(struct nkTree *pTree){
 
 	/*Insert identitas partner*/
 	do{
-		printf("\n\t%c Masukan nama pasangan: ", 175);
+		gotoxy(38, 12);
+		printf("%c Masukan nama pasangan: ", 175);
 		scanf(" %[^\n]", &partnerName);
 		if(Search((*pTree).root, partnerName)!=NULL){ /*Check jika ada node yg memiliki nama yg sama di tree*/
-			printf("\t[x] Nama orang tersebut sudah ada pada pohon keluarga\n");
+			gotoxy(38, 13);
+			printf("--- Nama orang tersebut sudah ada pada pohon keluarga ---");
 		}else{
 			break;
 		}
 	}while(1);
 	do{
 		fflush(stdin);
-		printf("\n\tUmur pasangan minimal 18 tahun\n");
-		printf("\t%c Masukan umur pasangan: ", 175);
+		gotoxy(38, 14);
+		printf("Umur pasangan minimal 18 tahun");
+		printf("%c Masukan umur pasangan: ", 175);
 		scanf(" %d", &age);
 
 		if(age < 18){
-			printf("\t[x] Pasangan masih dibawah umur\n");
+			gotoxy(38, 15);
+			printf("--- Pasangan masih dibawah umur ---");
 		}else{
 			break;
 		}
@@ -191,7 +199,8 @@ void InsertVPartner(struct nkTree *pTree){
 
 	/*Insert ke tree*/
 	InsertPartner(srcNode, partner);
-	printf("\n\t[o] Pasangan berhasil ditambahkan");
+	gotoxy(38, 17);
+	printf("[o] Pasangan berhasil ditambahkan [o]");
 	getch();
 }
 	
@@ -247,7 +256,6 @@ void levelOrderTraversal(nkAddr root) {
     }
 }
 
-<<<<<<< HEAD
 void printFromFile(const char* location){
 	FILE *read;
 	char c;
@@ -279,7 +287,4 @@ void loading_screen() {
 	printf("\n\n");
 	system("pause");
 	system("cls");
-}
-=======
-																																	
->>>>>>> 89ab17268b0a969c54b25c6718a8ebb62025534e
+}																								

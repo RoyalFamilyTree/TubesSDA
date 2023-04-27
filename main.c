@@ -55,16 +55,16 @@ int main(){
 		printf("\tPilihan %c ", 175); fflush(stdin); scanf("%d", &choose);
 		system("cls");
 		switch(choose){
-			case '1':
+			case 1:
 				system("cls");
 				//InsertPartner(&pTree);
 				break;
-			case '2':
+			case 2:
 				system("cls");
 				printFromFile("ilustrasi/wedding.txt");
 				InsertVPartner(&pTree);
 				break;
-			case '0':
+			case 0:
     			system("CLS");
     			printf("Sukses Keluar dari Program\n");
     			system("PAUSE");
