@@ -333,32 +333,6 @@ void levelOrderTraversal(nkAddr root) {
     }
 }
 
-int getGeneration(nkAddr root, infoType x) {
-    if (root == NULL) {
-        return -1;
-    }
-
-    int level = 1;
-    nkAddr currentNode = root;
-    if (currentNode->info.name == x) {
-    	return level;
-    	level++;
-	}
-	level++;
-    while (currentNode != NULL) {
-        nkAddr childNode = currentNode->fs;
-        while (childNode != NULL) {
-            if (childNode->info.name == x) {
-                return level;
-            }
-            childNode = childNode->nb;
-        }
-        currentNode = currentNode->fs;
-        level++;
-    }
-    return -1;
-}
-
 int Depth (nkAddr P){
     if (P == NULL) {
         return 0;

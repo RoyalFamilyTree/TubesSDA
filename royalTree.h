@@ -131,6 +131,8 @@ nkAddr deQueue(struct Queue *queue);
 //Dibuat oleh : Welsya
 void levelOrderTraversal(nkAddr root);
 
+int Depth (nkAddr P);
+void nextKing(nkAddr root);
 
 #endif
 
