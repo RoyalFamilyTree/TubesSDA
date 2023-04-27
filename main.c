@@ -55,12 +55,23 @@ int main(){
 		printf(" []   [1] Tambah anggota keluarga kerajaan           []\n");
         gotoxy(36, 13);
 		printf(" []   [2] Tambah pasangan                            []\n");
+<<<<<<< HEAD
+=======
+		gotoxy(36, 12);
+		printf(" []   [3] Hapus/turunkan takhta Raja sekarang        []\n");
+		gotoxy(36, 13);
+		printf(" []   [4] Matikan/hapus anggota keluarga kerajaan    []\n");
+>>>>>>> 25af7116f59c8c42f42017c7501ff2e7f8df64e5
 		gotoxy(36, 14);
 		printf(" []   [3] Hapus/turunkan tahta Raja sekarang         []\n");
 		gotoxy(36, 15);
 		printf(" []   [4] Matikan/hapus anggota keluarga kerajaan    []\n");
 		gotoxy(36, 16);
+<<<<<<< HEAD
 		printf(" []   [5] Tampilkan informasi keluarga kerajaan      []\n");
+=======
+		printf(" []   [7] Tampilkan penerus takhta                   []\n");
+>>>>>>> 25af7116f59c8c42f42017c7501ff2e7f8df64e5
 		gotoxy(36, 17);
 		printf(" []   [6] Tampilkan Silsilah                         []\n");
 		gotoxy(36, 18);
@@ -75,12 +86,40 @@ int main(){
 		switch(choose){
 			case 1:
 				system("cls");
+<<<<<<< HEAD
 				InputMember(&pTree);
+=======
+				InputMember();
+>>>>>>> 25af7116f59c8c42f42017c7501ff2e7f8df64e5
 				break;
 			case 2:
 				system("cls");
 				printFromFile("ilustrasi/wedding.txt");
 				InsertVPartner(&pTree);
+				break;
+			case 3:
+				system("cls");
+				printf("sabar ya modul deletenya belum jadi\n");
+				break;
+			case 4:
+				system("cls");
+				printf("sabar juga ya modul deletenya belum jadi\n");
+				break;
+			case 5:
+				system("cls");
+				printf("sabarr modulnya belum jadi\n");
+				break;
+			case 6:
+				system("cls");
+				levelOrderTraversal(pTree.root);
+				break;	
+			case 7:
+				system("cls");
+				nextKing(pTree.root);
+				break;
+			case 8:
+				system("cls");
+				printf("sabarr yah modulnya belum jadi\n");
 				break;
 			case 0:
     			system("CLS");
