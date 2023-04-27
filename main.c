@@ -66,7 +66,7 @@ int main(){
 			case 1:
 				system("cls");
 				printf("hi");
-				//InsertPartner(&pTree);
+				InputMember();
 				break;
 			case 2:
 				system("cls");

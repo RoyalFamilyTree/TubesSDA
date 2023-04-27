@@ -66,6 +66,34 @@ nkAddr Search(nkAddr root, infoType src){
 	return NULL;
 }
 
+void InputMember(){
+	struct nkTree tree;
+    tree.root = NULL;
+
+    // Menerima input dari pengguna untuk membuat node baru
+    int age, gender;
+    infoType name;
+    printf("Masukkan data node baru:\n");
+    printf("Nama: ");
+    scanf("%s", &name);
+    printf("Usia: ");
+    scanf("%d", &age);
+    printf("Jenis Kelamin (1 untuk Laki-laki, 0 untuk Perempuan): ");
+    scanf("%d", &gender);
+
+    // Membuat node baru dengan data yang diterima dari pengguna
+    nkAddr newNode = (nkAddr)malloc(sizeof(nkAddr));
+    strcpy(newNode->info.name, name);
+    newNode->info.age = age;
+    newNode->info.gender = gender == 1 ? MALE : FEMALE;
+    newNode->parent = NULL;
+    newNode->fs = NULL;
+    newNode->nb = NULL;
+
+    // Memasukkan node baru ke dalam pohon
+    InsertNode(&tree, newNode);
+}
+
 void InsertNode(struct nkTree *treeRoot, nkAddr newNode){
 	nkAddr temp;
 	/*Jika belum ada root*/
@@ -261,7 +289,9 @@ void levelOrderTraversal(nkAddr root) {
 
     // Inisialisasi queue
     struct Queue *queue = initQueue(1000);
-
+	
+	nkAddr node = deQueue(queue);
+	
     // Tambahkan root ke antrian
     enQueue(queue, root);
     
@@ -271,11 +301,10 @@ void levelOrderTraversal(nkAddr root) {
     while (queue->front != queue->rear) {
         // Cetak level
         printf("Generasi %d:\n", level);
-        
+        int i;
         // Tambahkan semua node pada level ini ke antrian
         int levelSize = queue->rear - queue->front; // levelSize diisi oleh ukuran queue
-        for (int i = 0; i < levelSize; i++) {
-            nkAddr node = deQueue(queue);
+        for (i = 0; i < levelSize; i++) {
             if (node->partner == NULL) {
 				printf("------------------------------------\n");
 				printf("|  [%s] -> age : %d , gender : %d  |-----> Belum ada partner :(\n", node->info.name, node->info.age, node->info.gender);
@@ -335,7 +364,8 @@ int Depth (nkAddr P){
         return 0;
     } else {
         int max_depth = -1;
-        for (nkAddr child = P->fs; child != NULL; child = child->nb) {
+        nkAddr child;
+        for (child = P->fs; child != NULL; child = child->nb) {
             int current_depth = Depth(child);
             if (current_depth > max_depth) {
                 max_depth = current_depth;
