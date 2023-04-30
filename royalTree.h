@@ -140,6 +140,10 @@ nkAddr deQueue(struct Queue *queue);
 //Dibuat oleh : Welsya
 void levelOrderTraversal(nkAddr root);
 
+int GetNodeDegree(nkAddr node);
+
+void printNodeInfo(nkAddr node, infoType name);
+
 //Dibuat oleh : Adinda
 void printFromFile(const char* location);
 /* Menampilkan teks pada file yang terdapat pada location*/

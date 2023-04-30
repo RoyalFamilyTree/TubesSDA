@@ -14,7 +14,7 @@ int main(){
 	int year;
 	char choose;
 	char str[]="";
-	char searchname[20];
+	char searchName[20];
 	unsigned char choice;
 	loading_screen();
 	system("cls");
@@ -79,21 +79,58 @@ int main(){
 				break;
 			case 2:
 				system("cls");
-				printFromFile("ilustrasi/wedding.txt");
 				InsertVPartner(&pTree);
 				break;
 			case 3:
-				system("cls");
-				printf("sabar ya modul deletenya belum jadi\n");
-				break;
+    system("cls");
+//    if (!isEmpty(pTree)){
+//        if(king != NULL){
+//            printf("\n\t%c Apakah anda yakin ingin menghapus data ini? [Y/N] : ", 175);
+//            choice = getchar();
+//            fflush(stdin);
+//            if(choice == 'Y'){
+//                printf("\n\t[o] Data anggota keluarga bernama \"%s\" telah dihapus\n", king->info.name);
+//                deleteNode(&king, &pTree);
+//                printf("\t");
+//                system("PAUSE");
+//            }
+//            else{
+//                printf("\n\t[o] Data batal dihapus\n");
+//                printf("\t");
+//                system("PAUSE");
+//            }
+//        }
+//        else{
+//            printf("\n\t[x] Raja tidak ditemukan!\n");
+//            printf("\t");
+//            system("PAUSE");
+//        }
+//    }
+//    else{
+//        printf("\n\t[x] Anggota Keluarga Masih Kosong!\n");
+//        printf("\t");
+//        system("PAUSE");
+//    }
+	   break;
+			
 			case 4:
 				system("cls");
 				DeleteNode(pTree.root);
 //				printf("sabar juga ya modul deletenya belum jadi\n");
 				break;
 			case 5:
-				system("cls");
-				printf("sabarr modulnya belum jadi\n");
+				printf("\n\t%c Nama: ", 175);
+            	scanf(" %[^\n]", &searchName);
+            	node = Search(pTree.root, searchName);
+            	if(node!=NULL){
+            		printNodeInfo(node, searchName);
+            		printf("\n\tTekan tombol apapun untuk kembali");
+					getch();
+				}else{
+					printf("\n\t[x] %s tidak terdapat pada pohon keluarga");
+					printf("\n\tTekan tombol apapun untuk kembali");
+					getch();
+				}
 				break;
 			case 6:
 				system("cls");
