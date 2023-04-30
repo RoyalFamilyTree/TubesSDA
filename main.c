@@ -40,36 +40,38 @@ int main(){
             deleteNode(&king, &pTree);
 		}
 		system("CLS");
-		printf("\t\t\t\t\tKeadaan Pohon Keluarga: \n");
+		printf("\t   Keadaan Pohon Keluarga\n");
+		printf("\t   ~~~~~~~~~~~~~~~~~~~~~~\n\n");
 		if (isEmpty(pTree)){
 			printf("\tTree kosong");
 		}
 		else{
-           printTree(pTree.root,str);
+//           printTree(pTree.root,str);
+			levelOrderTraversal(pTree.root);
 		}
-		gotoxy(36, 10);
+		gotoxy(60, 7);
         printf("    ************************************************\n");
-        gotoxy(36, 11);
+        gotoxy(60, 8);
 		printf(" []                                                  []\n");
-        gotoxy(36, 12);
+        gotoxy(60, 9);
 		printf(" []   [1] Tambah anggota keluarga kerajaan           []\n");
-        gotoxy(36, 13);
+        gotoxy(60, 10);
 		printf(" []   [2] Tambah pasangan                            []\n");
-		gotoxy(36, 14);
+		gotoxy(60, 11);
 		printf(" []   [3] Hapus/turunkan takhta Raja sekarang        []\n");
-		gotoxy(36, 15);
+		gotoxy(60, 12);
 		printf(" []   [4] Matikan/hapus anggota keluarga kerajaan    []\n");
-		gotoxy(36, 16);
+		gotoxy(60, 13);
 		printf(" []   [5] Tampilkan informasi keluarga kerajaan      []\n");
-		gotoxy(36, 17);
+		gotoxy(60, 14);
 		printf(" []   [6] Tampilkan penerus takhta                   []\n");
-		gotoxy(36, 18);
+		gotoxy(60, 15);
 		printf(" []   [0] Exit                                       []\n");
-		gotoxy(36, 19);
+		gotoxy(60, 16);
 	    printf(" []                                                  []\n");
-	    gotoxy(36, 20);
+	    gotoxy(60, 17);
         printf("  ***************************************************\n");
-        gotoxy(40, 21);
+        gotoxy(74, 18);
 		printf("\tPilihan %c ", 175); fflush(stdin); scanf("%d", &choose);
 		system("cls");
 		switch(choose){
@@ -80,7 +82,10 @@ int main(){
 			case 2:
 				system("cls");
 				InsertVPartner(&pTree);
-				break;
+				system("cls");
+				printFromFile("ilustrasi/wedding.txt");
+				printf("\n\n\t\t");
+				system("Pause");
 			case 3:
     system("cls");
 //    if (!isEmpty(pTree)){
@@ -134,12 +139,8 @@ int main(){
 				break;
 			case 6:
 				system("cls");
-				levelOrderTraversal(pTree.root);
-				break;	
-			case 7:
-				system("cls");
 				nextKing(pTree.root);
-				break;
+				break;	
 			case 0:
     			system("CLS");
     			gotoxy(44, 8); printf("Sukses Keluar dari Program\n\n");
