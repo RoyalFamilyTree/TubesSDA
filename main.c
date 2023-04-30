@@ -15,7 +15,7 @@ int main(){
 	char choose;
 	char str[]="";
 	char searchName[20];
-	unsigned char choice;
+	char choice;
 	loading_screen();
 	system("cls");
 	printFromFile("ilustrasi/opening.txt");
@@ -36,9 +36,6 @@ int main(){
 	do{
 		system("CLS");
 		king = pTree.root;
-		if((!isEmpty) && (king->info.age >= 80)){
-            deleteNode(&king, &pTree);
-		}
 		system("CLS");
 		printf("\t\t\t\t\tKeadaan Pohon Keluarga: \n");
 		if (isEmpty(pTree)){
@@ -82,31 +79,28 @@ int main(){
 				InsertVPartner(&pTree);
 				break;
 			case 3:
-    system("cls");
+//    system("cls");
 //    if (!isEmpty(pTree)){
-//        if(king != NULL){
+//        if(pTree.root != NULL){
 //            printf("\n\t%c Apakah anda yakin ingin menghapus data ini? [Y/N] : ", 175);
-//            choice = getchar();
+////            choice = getchar();
+//			getchar();
+//            scanf("%c", &choice);
 //            fflush(stdin);
-//            if(choice == 'Y'){
-//                printf("\n\t[o] Data anggota keluarga bernama \"%s\" telah dihapus\n", king->info.name);
-//                deleteNode(&king, &pTree);
-//                printf("\t");
+//            if(choice == 'Y' || choice == 'y'){
+////                printf("\n\t[o] Data anggota keluarga bernama \"%s\" telah dihapus\n", king->info.name);
+//				deleteNode(&king, &pTree);
+//				printf("\t");
+//				printf("\n\t[o] Data anggota keluarga bernama \"%s\" telah dihapus\n", king->info.name);
 //                system("PAUSE");
 //            }
-//            else{
+//            else if (choice == 'N' || choice == 'n'){
 //                printf("\n\t[o] Data batal dihapus\n");
 //                printf("\t");
 //                system("PAUSE");
 //            }
 //        }
-//        else{
-//            printf("\n\t[x] Raja tidak ditemukan!\n");
-//            printf("\t");
-//            system("PAUSE");
-//        }
-//    }
-//    else{
+//    }else{
 //        printf("\n\t[x] Anggota Keluarga Masih Kosong!\n");
 //        printf("\t");
 //        system("PAUSE");

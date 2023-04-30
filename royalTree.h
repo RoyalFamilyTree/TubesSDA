@@ -155,5 +155,7 @@ void gotoxy(int, int);
 void loading_screen();
 /*Menampilkan tulisan load*/
 
+void deleteNode(nkAddr *pDel, struct nkTree *pTree);
+
 #endif
 
