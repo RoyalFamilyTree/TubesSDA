@@ -438,7 +438,7 @@ void InsertVPartner(struct nkTree *pTree){
 
 	/*Insert ke tree*/
 	InsertPartner(srcNode, partner);
-	printf("\n\t[o] Pasangan berhasil ditambahkan [o]");
+	printf("\n\tPress any key to continue . . . ");
 	getch();
 }
 	
@@ -472,21 +472,44 @@ nkAddr deQueue(struct Queue *queue) {
 }
 
 void nextKing(nkAddr root) {
+	int i, x, y;
+	
     if (root == NULL) {
+    	printf("\n[x] Belum ada silsilah [x]\n\n");
+    	system("Pause");
         return;
     }
-
-    printf("Penerus Takhta:\n"); 
+	
+	gotoxy(38, 4); printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"); 
+    gotoxy(38, 5); printf("        Penerus Takhta        \n"); 
+    gotoxy(38, 6); printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"); 
 
     // Lakukan pengecekan setiap node di dalam tree
     nkAddr current = root;
+    if(current->fs == NULL) {
+    	gotoxy(32, 10); printf("[x] Raja/Ratu belum memiliki keturunan [x]\n\n");
+    	system("Pause");
+    	return;
+	}
+	x = 40; y = 8; i = 1;
     while (current != NULL) {
         // Jika memiliki first son, maka print informasi first son tersebut
         if (current->fs != NULL) {
-            printf("- %s\n", current->fs->info.name);
+            gotoxy(x, y); printf("%d. %s\n", i, current->fs->info.name);
         }
-
-        // Pindah ke node berikutnya (preOrder traversal)
+        
+        // Jika first son tidak mempunyai anak lagi, tampilkan next brothernya
+        if (current->fs->fs == NULL) {
+        	current = current->fs;
+        	while (current->nb != NULL) {
+	        	y++;
+	        	i++;
+	            gotoxy(x, y); printf("%d. %s (Next Brother)\n", i, current->nb->info.name);
+	            current = current->nb;
+        	}
+		}
+        
+        // Pindah ke node berikutnya 
         if (current->fs != NULL) {
             current = current->fs;
         } else if (current->nb != NULL) {
@@ -500,7 +523,15 @@ void nextKing(nkAddr root) {
                 current = current->nb;
             }
         }
+        i++;
+        y++;
     }
+    
+    if (current == NULL) {
+    	printf("\n");
+    	system("Pause");
+	}
+    
 }
 
 void levelOrderTraversal(nkAddr root) {
@@ -508,8 +539,6 @@ void levelOrderTraversal(nkAddr root) {
 
     // Inisialisasi queue
     struct Queue *queue = initQueue(1000);
-	
-	nkAddr node = deQueue(queue);
 	
     // Tambahkan root ke antrian
     enQueue(queue, root);
@@ -519,24 +548,16 @@ void levelOrderTraversal(nkAddr root) {
     
     while (queue->front != queue->rear) {
         // Cetak level
-        printf("Generasi %d:\n", level);
+        printf("\t\tGenerasi %d :\n", level);
         int i;
         // Tambahkan semua node pada level ini ke antrian
         int levelSize = queue->rear - queue->front; // levelSize diisi oleh ukuran queue
         for (i = 0; i < levelSize; i++) {
+        	nkAddr node = deQueue(queue);
             if (node->partner == NULL) {
-				printf("------------------------------------\n");
-				printf("|  [%s] -> age : %d , gender : %d  |-----> Belum ada partner :(\n", node->info.name, node->info.age, node->info.gender);
-				printf("------------------------------------\n");
+				printf("[%s] -> (%d) (%s) x [Belum ada partner]\n", node->info.name, node->info.age, node->info.gender ? "P" : "W");
         	} else { // Jika sudah memiliki pasangan maka tampilkan beserta pasangannya
-				printf("------------------------------------\n");
-				printf("|  [%s] -> age : %d , gender : %d  |----->\n", node->info.name, node->info.age, node->info.gender);
-				printf("------------------------------------\n");
-	            
-				printf("------------------------------------\n");
-				printf("|  [%s] -> age : %d , gender : %d  |\n", node->partner->info.name, node->partner->info.age, node->partner->info.gender);
-				printf("------------------------------------\n");
-        		
+				printf("[%s] -> (%d) (%s) x [%s] -> (%d) (%s)\n", node->info.name, node->info.age, node->info.gender ? "P" : "W", node->partner->info.name, node->partner->info.age, node->partner->info.gender ? "P" : "W");
 			}
 			
             // Tambahkan semua anak dari node ke antrian

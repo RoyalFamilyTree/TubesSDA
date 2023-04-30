@@ -140,6 +140,9 @@ nkAddr deQueue(struct Queue *queue);
 //Dibuat oleh : Welsya
 void levelOrderTraversal(nkAddr root);
 
+//Dibuat oleh : Welsya
+void nextKing(nkAddr root);
+
 int GetNodeDegree(nkAddr node);
 
 void printNodeInfo(nkAddr node, infoType name);
