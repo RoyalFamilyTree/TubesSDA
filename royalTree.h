@@ -67,6 +67,17 @@ void Create_Tree(struct nkTree *X);
 /**** Manajemen Memory ****/
 /*Penambahan tipe data*/
 
+//Dibuat oleh : Fikri
+boolean isFileEmpty();
+/* Cek file kosong */
+
+//Dibuat oleh : Fikri
+void getKingdomFromFile(struct nkTree *pTree);
+/* IS: tree tersedia, member kosong */
+/* FS: tree terisi oleh node hasil dari read sebuah file */
+
+void getKingFromFile(struct nkTree *pTree);
+
 //Sumber : github 
 //Modifikasi oleh : Adinda
 nkAddr CreateNode (nkAddr parent, infoType name, int age, boolean gender);

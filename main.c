@@ -16,6 +16,7 @@ int main(){
 	char str[]="";
 	char searchName[20];
 	unsigned char choice;
+	getKingdomFromFile(&pTree);
 	loading_screen();
 	system("cls");
 	printFromFile("ilustrasi/opening.txt");
@@ -34,7 +35,13 @@ int main(){
 	system("cls");
 	printFromFile("ilustrasi/king.txt");
 	printf("\n");
-	InsertKing(&pTree);
+
+	if(isFileEmpty()){
+		InsertKing(&pTree);	
+	}else{
+		getKingFromFile(&pTree);
+	}
+	
 	do{
 		system("CLS");
 		king = pTree.root;

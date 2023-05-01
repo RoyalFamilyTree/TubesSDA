@@ -5,6 +5,62 @@ void Create_Tree(struct nkTree *X){ //Create Non Binary Tree
 	(*X).root=NULL;
 }
 
+boolean isFileEmpty(){
+	FILE *file = fopen("KingdomMember.txt", "r");
+	boolean isEmpty = true;
+	
+	if(file){
+		//file berhasil dibuka
+		fseek(file, 0, SEEK_END);
+		if(ftell(file) > 0){
+			// file tidak kosong
+			isEmpty = false;
+		}
+		fclose(file);
+	}
+	return isEmpty;
+}
+
+void getKingdomFromFile(struct nkTree *pTree) {
+	const char* filename = "KingdomMember.txt";
+    FILE *fp;
+    char line[100];
+
+    // Membuka file dengan mode read
+    fp = fopen(filename, "r");
+
+    // Cek apakah file berhasil dibuka
+    if (fp == NULL) {
+        printf("Error: Tidak dapat membuka file %s\n", filename);
+        exit(1);
+    }
+
+    // Membaca data dari file secara baris per baris
+    while (fgets(line, sizeof(line), fp) != NULL) {
+        // Membuat variabel temporary untuk menyimpan data yang telah diparse dari string
+        char name[50], parentName[50], gender[10];
+        int age;
+
+        // Memparse baris ke dalam variabel temporary
+        sscanf(line, "%[^,],%d,%[^,],%[^\n]", name, &age, parentName, gender);
+
+        // Mengubah gender ke dalam bentuk boolean
+        boolean isMale = (strcmp(gender, "male") == 1);
+
+        // Mencari node parent
+        nkAddr parentNode = Search((*pTree).root, parentName);
+
+        // Membuat node baru dengan data yang telah diparse
+        nkAddr newNode = CreateNode(parentNode, name, age, isMale);
+
+        // Memasukkan node baru ke dalam pohon keluarga
+        InsertNode(pTree, newNode);
+    }
+
+    // Menutup file setelah selesai membaca
+    fclose(fp);
+}
+
 boolean isEmpty(struct nkTree X){
 	return (X.root==NULL);
 }
@@ -65,11 +121,39 @@ nkAddr Search(nkAddr root, infoType src){
 	return NULL;
 }
 
+void getKingFromFile(struct nkTree *pTree){
+	nkAddr king;
+    infoType name;
+    int age, temp;
+    boolean gender;
+    FILE *file = fopen("KingdomMember.txt", "r");
+    
+    if (file == NULL) {
+//        printf("File tidak dapat dibuka!\n");
+        exit(1);
+    }
+    
+    fscanf(file, "%[^,],%d,%d", name, &age, &temp);
+    gender = (temp == 1);
+    
+    king = CreateNode(NULL, name, age, gender);
+    
+    InsertNode(pTree, king);
+    
+    fclose(file);
+}
+
 void InsertKing(struct nkTree *pTree){
 	nkAddr king;
 	infoType name;
 	int age, temp;
 	boolean gender;
+	FILE *file = fopen("KingdomMember.txt", "w");
+	
+	if (file == NULL) {
+	    printf("File tidak dapat dibuka!\n");
+	    return 1;
+	}
 	
 	/*Input nama*/
 	printf("\n\tMasukan Identitas Raja / Ratu:\n");
@@ -104,6 +188,10 @@ void InsertKing(struct nkTree *pTree){
 	/*Insert ke tree*/
 	InsertNode(pTree, king);
 	printf("\n\t[o] Raja/ ratu berhasil ditambahkan [o]");
+	
+	
+	fprintf(file, "%s, %d, %d", name, age, gender);
+	fclose(file);
 	getch();
 }
 
@@ -469,6 +557,8 @@ void nextKing(nkAddr root) {
         }
         i++;
         y++;
+        
+        system("Pause");
     }
      
     
