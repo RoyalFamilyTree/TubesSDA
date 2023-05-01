@@ -7,15 +7,15 @@ Order=0,1,2,3
 <<<<<<< HEAD
 Focused=1
 [Editor_0]
-CursorCol=6
+CursorCol=10
 <<<<<<< HEAD
-CursorRow=108
-TopLine=94
+CursorRow=82
+TopLine=80
 LeftChar=1
 [Editor_1]
-CursorCol=9
-CursorRow=766
-TopLine=751
+CursorCol=23
+CursorRow=628
+TopLine=613
 =======
 Focused=0
 LeftChar=1
@@ -44,9 +44,9 @@ TopLine=130
 >>>>>>> 25af7116f59c8c42f42017c7501ff2e7f8df64e5
 LeftChar=1
 [Editor_2]
-CursorCol=11
-CursorRow=145
-TopLine=75
+CursorCol=28
+CursorRow=144
+TopLine=116
 =======
 CursorRow=45
 TopLine=8
