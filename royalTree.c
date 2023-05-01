@@ -438,9 +438,8 @@ void nextKing(nkAddr root) {
 	}
 	x = 40; y = 8; i = 1;
     while (current != NULL) {
-        // Jika memiliki first son, maka print informasi first son tersebut
         if (current->fs != NULL) {
-            gotoxy(x, y); printf("%d. %s\n", i, current->fs->info.name);
+            gotoxy(x, y); printf("%d. %s (First Son of %s)\n", i, current->fs->info.name, current->fs->parent->info.name);
         }
         
         // Jika first son tidak mempunyai anak lagi, tampilkan next brothernya
@@ -449,7 +448,7 @@ void nextKing(nkAddr root) {
         	while (current->nb != NULL) {
 	        	y++;
 	        	i++;
-	            gotoxy(x, y); printf("%d. %s (Next Brother)\n", i, current->nb->info.name);
+	            gotoxy(x, y); printf("%d. %s (Next Brother of %s)\n", i, current->nb->info.name, current->info.name);
 	            current = current->nb;
         	}
 		}
@@ -471,13 +470,14 @@ void nextKing(nkAddr root) {
         i++;
         y++;
     }
+     
     
     if (current == NULL) {
     	printf("\n");
     	system("Pause");
 	}
-    
 }
+    
 
 void levelOrderTraversal(nkAddr root) {
     if (root == NULL) return;
