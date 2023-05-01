@@ -32,6 +32,8 @@ int main(){
 	printf("\n\n\t\t");
 	system("Pause");
 	system("cls");
+	printFromFile("ilustrasi/king.txt");
+	printf("\n");
 	InsertKing(&pTree);
 	do{
 		system("CLS");
@@ -77,53 +79,23 @@ int main(){
 		switch(choose){
 			case 1:
 				system("cls");
+				printFromFile("ilustrasi/throne.txt");
 				InputMember(&pTree);
 				break;
 			case 2:
 				system("cls");
+				printFromFile("ilustrasi/Queen.txt");
 				InsertVPartner(&pTree);
-				system("cls");
-				printFromFile("ilustrasi/wedding.txt");
-				printf("\n\n\t\t");
-				system("Pause");
+				break;
 			case 3:
-    system("cls");
-//    if (!isEmpty(pTree)){
-//        if(king != NULL){
-//            printf("\n\t%c Apakah anda yakin ingin menghapus data ini? [Y/N] : ", 175);
-//            choice = getchar();
-//            fflush(stdin);
-//            if(choice == 'Y'){
-//                printf("\n\t[o] Data anggota keluarga bernama \"%s\" telah dihapus\n", king->info.name);
-//                deleteNode(&king, &pTree);
-//                printf("\t");
-//                system("PAUSE");
-//            }
-//            else{
-//                printf("\n\t[o] Data batal dihapus\n");
-//                printf("\t");
-//                system("PAUSE");
-//            }
-//        }
-//        else{
-//            printf("\n\t[x] Raja tidak ditemukan!\n");
-//            printf("\t");
-//            system("PAUSE");
-//        }
-//    }
-//    else{
-//        printf("\n\t[x] Anggota Keluarga Masih Kosong!\n");
-//        printf("\t");
-//        system("PAUSE");
-//    }
-	   break;
-			
+  		  		system("cls");
+		   		break;
 			case 4:
 				system("cls");
 				DeleteNode(pTree.root);
-//				printf("sabar juga ya modul deletenya belum jadi\n");
 				break;
 			case 5:
+				printFromFile("ilustrasi/castle.txt");
 				printf("\n\t%c Nama: ", 175);
             	scanf(" %[^\n]", &searchName);
             	node = Search(pTree.root, searchName);
