@@ -6,6 +6,11 @@
 #include "royalTree.h"
 
 #define CREATOR "Created by Adinda Fauzia Puspita, Muhammad Fikri Nursyabani & Welsya Almaira Indra"
+#define JURUSAN "Jurusan Teknik Komputer dan Informatika"
+#define PRODI "D4 Teknik Informatika"
+#define TAHUN "2023"
+
+
 
 int main(){
 	struct nkTree pTree;
@@ -22,6 +27,12 @@ int main(){
 	printFromFile("ilustrasi/opening.txt");
 	printf("\n\n\t\t");
 	printf(CREATOR);
+	printf("\n\n\t\t\t\t\t");
+	printf(JURUSAN);
+	printf("\n\n\t\t\t\t\t\t");
+	printf(PRODI);
+	printf("\n\n\t\t\t\t\t\t\t");
+	printf(TAHUN);
 	printf("\n\n\t\t");
 	system("Pause");
 	system("cls");
