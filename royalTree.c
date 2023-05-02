@@ -381,114 +381,209 @@ void InsertPartner(nkAddr familyMember, pairAddr partner){
 	familyMember->partner = partner;
 }
 
-nkAddr FindParent(nkAddr root, nkAddr node) {
-    if (root == NULL || root == node) {
-        return NULL;
-    }
-    if (root->fs == node || root->nb == node) {
-        return root;
-    }
-    nkAddr parent = FindParent(root->fs, node);
-    if (parent != NULL) {
-        return parent;
-    }
-    return FindParent(root->nb, node);
+//nkAddr FindParent(nkAddr root, nkAddr node) {
+//    if (root == NULL || root == node) {
+//        return NULL;
+//    }
+//    if (root->fs == node || root->nb == node) {
+//        return root;
+//    }
+//    nkAddr parent = FindParent(root->fs, node);
+//    if (parent != NULL) {
+//        return parent;
+//    }
+//    return FindParent(root->nb, node);
+//}
+//
+//nkAddr FindSuccessor(nkAddr root, nkAddr node) {
+//    nkAddr current = node->fs;
+//    while (current != NULL && current->nb != NULL) {
+//        current = current->nb;
+//    }
+//    return current;
+//}
+//
+//void DeleteNode(nkAddr root) {
+//	infoType target;
+//	
+//	printf("Ketik nama anggota yang akan dihapus: ");
+//	scanf("%s", &target);
+//	
+//    nkAddr parent = NULL;
+//    nkAddr node = Search(root, target);
+//    
+//    // If target node not found, return
+//    if (node == NULL) {
+//        return;
+//    }
+//    
+//    // Find parent node of the target node
+//    if (node != root) {
+//        parent = FindParent(root, node);
+//    }
+//    
+//    // If target node has no child nodes
+//    if (node->fs == NULL && node->nb == NULL) {
+//        // If the target node is the root node
+//        if (node == root) {
+//            DeallocNode(&node);
+//            root = NULL;
+//            return;
+//        }
+//        // If the target node is a child node
+//        if (node == parent->fs) {
+//            parent->fs = NULL;
+//        } else {
+//            parent->nb = NULL;
+//        }
+//        DeallocNode(&node);
+//        return;
+//    }
+//    
+//    // If target node has only one child node
+//    if (node->fs != NULL && node->nb == NULL) {
+//        // If the target node is the root node
+//        if (node == root) {
+//            nkAddr temp = node->fs;
+//            DeallocNode(&node);
+//            root = temp;
+//            return;
+//        }
+//        // If the target node is a child node
+//        if (node == parent->fs) {
+//            parent->fs = node->fs;
+//        } else {
+//            parent->nb = node->fs;
+//        }
+//        DeallocNode(&node);
+//        return;
+//    }
+//    if (node->fs == NULL && node->nb != NULL) {
+//        // If the target node is the root node
+//        if (node == root) {
+//            nkAddr temp = node->nb;
+//            DeallocNode(&node);
+//            root = temp;
+//            return;
+//        }
+//        // If the target node is a child node
+//        if (node == parent->fs) {
+//            parent->fs = node->nb;
+//        } else {
+//            parent->nb = node->nb;
+//        }
+//        DeallocNode(&node);
+//        return;
+//    }
+//    
+//    // If target node has two child nodes
+//    nkAddr successor = FindSuccessor(root, node);
+//    nkAddr successorParent = FindParent(root, successor);
+//    // Copy successor's info to target node
+//    node->info = successor->info;
+//    // Remove successor node from the tree
+//    if (successor == successorParent->fs) {
+//        successorParent->fs = successor->nb;
+//    } else {
+//        nkAddr temp = successor->nb;
+//        successorParent->nb = temp;
+//    }
+//    DeallocNode(&successor);
+//}
+
+void Upgrade(nkAddr *root){
+	nkAddr temp;
+	temp= (*root)->nb;
+	if ((*root)->fs==NULL)
+		(*root)->fs=temp;
+	while(temp!=NULL){
+		temp->parent= *root;
+		temp=temp->nb;
+	}
 }
 
-nkAddr FindSuccessor(nkAddr root, nkAddr node) {
-    nkAddr current = node->fs;
-    while (current != NULL && current->nb != NULL) {
-        current = current->nb;
-    }
-    return current;
-}
+void deleteNode(nkAddr *pDel, struct nkTree *pTree){
+	nkAddr pCur;
+	pCur=*pDel;
 
-void DeleteNode(nkAddr root) {
-	infoType target;
-	
-	printf("Ketik nama anggota yang akan dihapus: ");
-	scanf("%s", &target);
-	
-    nkAddr parent = NULL;
-    nkAddr node = Search(root, target);
-    
-    // If target node not found, return
-    if (node == NULL) {
-        return;
-    }
-    
-    // Find parent node of the target node
-    if (node != root) {
-        parent = FindParent(root, node);
-    }
-    
-    // If target node has no child nodes
-    if (node->fs == NULL && node->nb == NULL) {
-        // If the target node is the root node
-        if (node == root) {
-            DeallocNode(&node);
-            root = NULL;
-            return;
-        }
-        // If the target node is a child node
-        if (node == parent->fs) {
-            parent->fs = NULL;
-        } else {
-            parent->nb = NULL;
-        }
-        DeallocNode(&node);
-        return;
-    }
-    
-    // If target node has only one child node
-    if (node->fs != NULL && node->nb == NULL) {
-        // If the target node is the root node
-        if (node == root) {
-            nkAddr temp = node->fs;
-            DeallocNode(&node);
-            root = temp;
-            return;
-        }
-        // If the target node is a child node
-        if (node == parent->fs) {
-            parent->fs = node->fs;
-        } else {
-            parent->nb = node->fs;
-        }
-        DeallocNode(&node);
-        return;
-    }
-    if (node->fs == NULL && node->nb != NULL) {
-        // If the target node is the root node
-        if (node == root) {
-            nkAddr temp = node->nb;
-            DeallocNode(&node);
-            root = temp;
-            return;
-        }
-        // If the target node is a child node
-        if (node == parent->fs) {
-            parent->fs = node->nb;
-        } else {
-            parent->nb = node->nb;
-        }
-        DeallocNode(&node);
-        return;
-    }
-    
-    // If target node has two child nodes
-    nkAddr successor = FindSuccessor(root, node);
-    nkAddr successorParent = FindParent(root, successor);
-    // Copy successor's info to target node
-    node->info = successor->info;
-    // Remove successor node from the tree
-    if (successor == successorParent->fs) {
-        successorParent->fs = successor->nb;
-    } else {
-        nkAddr temp = successor->nb;
-        successorParent->nb = temp;
-    }
-    DeallocNode(&successor);
+	if((*pTree).root == NULL) //kondisi ketika root kosong
+	{
+		printf("Tree Kosong");
+		return;
+	}
+	//kondisi node merupakan leaf dan jika merupakan first son maka next brothernya menjadi first son
+	if(pCur->fs == NULL)
+	{
+		if(pCur->parent->fs == pCur) //kondisi ketika node merupakan anak pertama dari parent
+		{
+			if(pCur->nb != NULL) //ketika first son memiliki sibling
+				pCur->parent->fs = pCur->nb;
+			else
+				pCur->parent->fs = NULL;
+			DeallocNode(&(*pDel));
+		}else //kondisi ketika node bukan merupakan anak pertama
+		{
+			pCur = pCur->parent->fs; //pCur ditunjuk ke anak pertama
+			while(pCur->nb != *pDel) //pencarian node sebelum pDel
+				pCur = pCur->nb;
+			if((*pDel)->nb == NULL) //kondisi ketika pDel merupakan last son
+			{
+				pCur->nb = NULL;
+				DeallocNode(&(*pDel));
+			}
+			else //kondisi ketika pDel bukan merupakan last son
+			{
+                pCur->nb = (*pDel)->nb;
+				DeallocNode(&(*pDel));
+			}
+		}
+		return;
+	}
+	else //kondisi node memiliki child
+	{
+		while( pCur->fs!=NULL )
+			pCur = pCur->fs; // pcur diisi dengan First son sampai null
+		while (pCur != *pDel){
+			Upgrade(&pCur);
+			if (pCur->parent!=NULL)
+				pCur->nb=pCur->parent->nb;
+			else
+				pCur->nb=NULL;
+			pCur= pCur->parent;
+		}
+
+		pCur = *pDel;
+		if(pCur->parent != NULL ) // ketika node memiliki parent
+		{
+			if(pCur->parent->fs == *pDel) //kondisi node merupakan first son dari parentnya
+			{
+				pCur->parent->fs=pCur->fs;
+				pCur->fs->parent = pCur->parent;
+				DeallocNode(&(*pDel));
+			}else //kondisi node bukan merupakan first son
+			{
+				pCur = (*pDel)->parent->fs;
+				while(pCur->nb != *pDel) //pencarian node sebelum pDel
+					pCur = pCur->nb;
+				pCur->nb = (*pDel)->fs;
+				if((*pDel)->nb == NULL)
+					(*pDel)->fs->nb = NULL;
+				else
+					(*pDel)->fs->nb = (*pDel)->nb;
+				DeallocNode(&(*pDel));
+			}
+			return;
+		}
+		else //kondisi ketika yang dihapus merupakan root
+		{
+			(*pTree).root = pCur->fs	;
+			(*pTree).root->parent = NULL;
+			DeallocNode(&(*pDel));
+//			system("PAUSE");
+		}
+		printf("berhasil dihapus");
+		system("PAUSE");
+	}
 }
 
 struct Queue *initQueue(int size) {
@@ -623,21 +718,21 @@ void levelOrderTraversal(nkAddr root) {
 }
 
 
-int Depth (nkAddr P){
-    if (P == NULL) {
-        return 0;
-    } else {
-        int max_depth = -1;
-        nkAddr child;
-        for (child = P->fs; child != NULL; child = child->nb) {
-            int current_depth = Depth(child);
-            if (current_depth > max_depth) {
-                max_depth = current_depth;
-            }
-        }
-        return max_depth + 1;
-    }
-}
+//int Depth (nkAddr P){
+//    if (P == NULL) {
+//        return 0;
+//    } else {
+//        int max_depth = -1;
+//        nkAddr child;
+//        for (child = P->fs; child != NULL; child = child->nb) {
+//            int current_depth = Depth(child);
+//            if (current_depth > max_depth) {
+//                max_depth = current_depth;
+//            }
+//        }
+//        return max_depth + 1;
+//    }
+//}
 
 void printTree(nkAddr node, char tab[]) {
     char newTab[255];
@@ -750,97 +845,21 @@ void printFromFile(const char* location){
 	fclose(read);
 }
 
-void Upgrade(nkAddr *root){
-	nkAddr temp;
-	temp= (*root)->nb;
-	if ((*root)->fs==NULL)
-		(*root)->fs=temp;
-	while(temp!=NULL){
-		temp->parent= *root;
-		temp=temp->nb;
+void TimeSkip(nkAddr node, int year){
+	if (node!=NULL){
+		if(node->partner != NULL){
+            node->info.age += year;
+			node->partner->info.age += year;
+		}else{
+			node->info.age += year;
+		}
+		TimeSkip(node->fs,year);
+		TimeSkip(node->nb,year);
 	}
 }
 
-void deleteNode(nkAddr *pDel, struct nkTree *pTree){
-	nkAddr pCur;
-	pCur=*pDel;
-
-	if((*pTree).root == NULL) //kondisi ketika root kosong
-	{
-		printf("Tree Kosong");
-		return;
-	}
-	//kondisi node merupakan leaf dan jika merupakan first son maka next brothernya menjadi first son
-	if(pCur->fs == NULL)
-	{
-		if(pCur->parent->fs == pCur) //kondisi ketika node merupakan anak pertama dari parent
-		{
-			if(pCur->nb != NULL) //ketika first son memiliki sibling
-				pCur->parent->fs = pCur->nb;
-			else
-				pCur->parent->fs = NULL;
-			DeallocNode(&(*pDel));
-		}else //kondisi ketika node bukan merupakan anak pertama
-		{
-			pCur = pCur->parent->fs; //pCur ditunjuk ke anak pertama
-			while(pCur->nb != *pDel) //pencarian node sebelum pDel
-				pCur = pCur->nb;
-			if((*pDel)->nb == NULL) //kondisi ketika pDel merupakan last son
-			{
-				pCur->nb = NULL;
-				DeallocNode(&(*pDel));
-			}
-			else //kondisi ketika pDel bukan merupakan last son
-			{
-                pCur->nb = (*pDel)->nb;
-				DeallocNode(&(*pDel));
-			}
-		}
-		return;
-	}
-	else //kondisi node memiliki child
-	{
-		while( pCur->fs!=NULL )
-			pCur = pCur->fs; // pcur diisi dengan First son sampai null
-		while (pCur != *pDel){
-			Upgrade(&pCur);
-			if (pCur->parent!=NULL)
-				pCur->nb=pCur->parent->nb;
-			else
-				pCur->nb=NULL;
-			pCur= pCur->parent;
-		}
-
-		pCur = *pDel;
-		if(pCur->parent != NULL ) // ketika node memiliki parent
-		{
-			if(pCur->parent->fs == *pDel) //kondisi node merupakan first son dari parentnya
-			{
-				pCur->parent->fs=pCur->fs;
-				pCur->fs->parent = pCur->parent;
-				DeallocNode(&(*pDel));
-			}else //kondisi node bukan merupakan first son
-			{
-				pCur = (*pDel)->parent->fs;
-				while(pCur->nb != *pDel) //pencarian node sebelum pDel
-					pCur = pCur->nb;
-				pCur->nb = (*pDel)->fs;
-				if((*pDel)->nb == NULL)
-					(*pDel)->fs->nb = NULL;
-				else
-					(*pDel)->fs->nb = (*pDel)->nb;
-				DeallocNode(&(*pDel));
-			}
-			return;
-		}
-		else //kondisi ketika yang dihapus merupakan root
-		{
-			(*pTree).root = pCur->fs	;
-			(*pTree).root->parent = NULL;
-			DeallocNode(&(*pDel));
-//			system("PAUSE");
-		}
-		printf("berhasil dihapus");
-		system("PAUSE");
-	}
+void ProceedTimeSkip(nkAddr *root, int year)
+{
+    TimeSkip(*root,year);
 }
+

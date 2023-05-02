@@ -76,12 +76,14 @@ int main(){
 		gotoxy(60, 14);
 		printf(" []   [6] Tampilkan penerus takhta                   []\n");
 		gotoxy(60, 15);
-		printf(" []   [0] Exit                                       []\n");
+		printf(" []   [7] Lakukan timeskip                           []\n");
 		gotoxy(60, 16);
+		printf(" []   [0] Exit                                       []\n");
+		gotoxy(60, 17);
 	    printf(" []                                                  []\n");
-	    gotoxy(60, 17);
+	    gotoxy(60, 18);
         printf("  ***************************************************\n");
-        gotoxy(74, 18);
+        gotoxy(74, 19);
 		printf("\tPilihan %c ", 175); fflush(stdin); scanf("%d", &choose);
 		system("cls");
 		switch(choose){
@@ -189,6 +191,14 @@ int main(){
 			case 6:
 				system("cls");
 				nextKing(pTree.root);
+				break;
+			case 7:
+				system("cls");
+				printf("\n\tFungsi ini akan menambahkan umur semua anggota keluarga kerajaan sesuai input yang diterima\n");
+                printf("\t%c Input jumlah tahun yang akan ditambahkan : ", 175);
+                scanf("%d",&year);
+				ProceedTimeSkip(&pTree.root, year);
+				fflush(stdin);
 				break;	
 			case 0:
     			system("CLS");

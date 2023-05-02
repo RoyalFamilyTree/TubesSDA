@@ -54,18 +54,11 @@ struct Queue {
 /*********** PROTOTYPE ****************/
 /**** Predikat untuk test keadaan Tree  ****/
 
-//Dibuat oleh : Adinda
+//Dibuat oleh : SN
 boolean isEmpty (struct nkTree X);
 /* Mengirimkan true jika Isi_Tree KOSONG */
 
 /**** Konstruktor/Kreator Tree Kosong ****/
-
-//Sumber : Tugas Program Struktur Non Binary Tree SDA-P
-void Create_Tree(struct nkTree *X);
-// Membuat tree kosong
-
-/**** Manajemen Memory ****/
-/*Penambahan tipe data*/
 
 //Dibuat oleh : Fikri
 boolean isFileEmpty();
@@ -75,6 +68,13 @@ boolean isFileEmpty();
 void getKingdomFromFile(struct nkTree *pTree);
 /* IS: tree tersedia, member kosong */
 /* FS: tree terisi oleh node hasil dari read sebuah file */
+
+//Sumber : Tugas Program Struktur Non Binary Tree SDA-P
+void Create_Tree(struct nkTree *X);
+// Membuat tree kosong
+
+/**** Manajemen Memory ****/
+/*Penambahan tipe data*/
 
 void getDataFromFile(struct nkTree *pTree);
 
@@ -136,26 +136,32 @@ void InsertNode(struct nkTree *treeRoot, nkAddr newNode);
 
 /**** Penghapusan sebuah node ****/
 
-//Dibuat oleh : Fikri
-nkAddr FindParent(nkAddr root, nkAddr node);
-/* IS: pointer nkAddr root dan pointer nkAddr node yang akan dicari induknya.*/
-/* FS: pointer nkAddr yang menunjuk pada node induk dari node target. Jika tidak ditemukan, akan mengembalikan NULL.*/
+////Dibuat oleh : Fikri
+//nkAddr FindParent(nkAddr root, nkAddr node);
+///* IS: pointer nkAddr root dan pointer nkAddr node yang akan dicari induknya.*/
+///* FS: pointer nkAddr yang menunjuk pada node induk dari node target. Jika tidak ditemukan, akan mengembalikan NULL.*/
+//
+////Dibuat oleh : Fikri
+//nkAddr FindSuccessor(nkAddr root, nkAddr node);
+///* IS: pointer nkAddr root dan pointer nkAddr node yang akan dicari penggantinya. */
+///* FS: pointer nkAddr yang menunjuk pada node pengganti. Jika tidak ditemukan pengganti, akan mengembalikan NULL. */
+
+//Dibuat oleh : Adinda
+void Upgrade(nkAddr *root);
+/* IS: */
+/* FS: */ 
 
 //Dibuat oleh : Fikri
-nkAddr FindSuccessor(nkAddr root, nkAddr node);
-/* IS: pointer nkAddr root dan pointer nkAddr node yang akan dicari penggantinya. */
-/* FS: pointer nkAddr yang menunjuk pada node pengganti. Jika tidak ditemukan pengganti, akan mengembalikan NULL. */
-
-//Dibuat oleh : Fikri
-void DeleteNode(nkAddr root);
+//Modifikasi oleh : Adinda
+void deleteNode(nkAddr *pDel, struct nkTree *pTree);
 /* IS: node member dengan info sembarang tersedia/tidak tersedia */
 /* FS: apabila node member dengan info sembarang tersedia, maka akan terhapus. apabila tidak tersedia, muncul output "nama anggota tidak tersedia"*/
 
 /**** PROSES SEMUA NODE TREE  ****/
 
-//Dibuat oleh : Adinda
-void printTree(nkAddr node, char tab[]);
-/* Menampilkan tree pada program secara preorder*/
+////Dibuat oleh : Adinda
+//void printTree(nkAddr node, char tab[]);
+///* Menampilkan tree pada program secara preorder*/
 
 //Dibuat oleh : Welsya
 struct Queue *initQueue(int size);
