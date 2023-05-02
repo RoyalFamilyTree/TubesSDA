@@ -1,1 +1,2 @@
-Fikri, 79, 1
+NULL, Fikri, 79, 1 -> Ralisa, 71, 0
+Fikri, Wel, 40, 0

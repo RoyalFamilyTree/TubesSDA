@@ -76,7 +76,9 @@ void getKingdomFromFile(struct nkTree *pTree);
 /* IS: tree tersedia, member kosong */
 /* FS: tree terisi oleh node hasil dari read sebuah file */
 
-void getKingFromFile(struct nkTree *pTree);
+void getDataFromFile(struct nkTree *pTree);
+
+//void getPartnerFromFile(struct nkTree *pTree)
 
 //Sumber : github 
 //Modifikasi oleh : Adinda

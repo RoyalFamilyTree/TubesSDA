@@ -121,11 +121,12 @@ nkAddr Search(nkAddr root, infoType src){
 	return NULL;
 }
 
-void getKingFromFile(struct nkTree *pTree){
+void getDataFromFile(struct nkTree *pTree){
 	nkAddr king;
-    infoType name;
-    int age, temp;
-    boolean gender;
+	pairAddr partner;
+    infoType name, partnerName;
+    int age, partnerAge, temp, partnerTemp;
+    boolean gender, partnerGender;
     FILE *file = fopen("KingdomMember.txt", "r");
     
     if (file == NULL) {
@@ -133,15 +134,19 @@ void getKingFromFile(struct nkTree *pTree){
         exit(1);
     }
     
-    fscanf(file, "%[^,],%d,%d", name, &age, &temp);
+    fscanf(file, "NULL, %[^,],%d,%d -> %[^,],%d,%d", name, &age, &temp, partnerName, &partnerAge, &partnerTemp);
     gender = (temp == 1);
+    partnerGender = (partnerTemp == 1);
     
     king = CreateNode(NULL, name, age, gender);
+    partner = CreateNPartner(partnerName, partnerAge, partnerGender);
     
     InsertNode(pTree, king);
+    InsertPartner(king, partner);
     
     fclose(file);
 }
+
 
 void InsertKing(struct nkTree *pTree){
 	nkAddr king;
@@ -190,80 +195,86 @@ void InsertKing(struct nkTree *pTree){
 	printf("\n\t[o] Raja/ ratu berhasil ditambahkan [o]");
 	
 	
-	fprintf(file, "%s, %d, %d", name, age, gender);
+	fprintf(file, "NULL, %s, %d, %d", name, age, gender);
 	fclose(file);
 	getch();
 }
 
 void InsertVPartner(struct nkTree *pTree){
-	nkAddr srcNode;
-	pairAddr partner;
-	boolean gender;
-	infoType name, partnerName;
-	int age;
+    nkAddr srcNode;
+    pairAddr partner;
+    boolean gender;
+    infoType name, partnerName;
+    int age;
+    FILE *file = fopen("KingdomMember.txt", "a");
+    
+    /*Search node*/
+    printf("\n\n\tMasukan 'q' untuk kembali\n");
+    printf("\tUmur minimal untuk menikah adalah 18 tahun\n");
+    do{
+        printf("\n\t%c Nama anggota keluarga yang akan menikah: ", 175);
+        scanf(" %[^\n]", &name);
+        if(strcmp(name, "q")==0){
+            return;
+        }
+        srcNode=Search((*pTree).root, name);
 
-	/*Search node*/
-	printf("\n\n\tMasukan 'q' untuk kembali\n");
-	printf("\tUmur minimal untuk menikah adalah 18 tahun\n");
-	do{
-		printf("\n\t%c Nama anggota keluarga yang akan menikah: ", 175);
-		scanf(" %[^\n]", &name);
-		if(strcmp(name, "q")==0){
-			return;
-		}
-		srcNode=Search((*pTree).root, name);
+        if(srcNode == NULL){
+            printf("\t[x] Anggota keluarga tidak ditemukan [x]\n");
+        }else if(srcNode->partner != NULL){
+            printf("\t[x] Anggota keluarga tersebut sudah memiliki pasangan [x]\n");
+        }else if(srcNode->info.age < 18){
+            printf("\t[x] Anggota keluarga tersebut masih dibawah umur [x]\n");
+        }else{
+            break;
+        }
+    }while(1);
 
-		if(srcNode == NULL){
-			printf("\t[x] Anggota keluarga tidak ditemukan [x]\n");
-		}else if(srcNode->partner != NULL){
-			printf("\t[x] Anggota keluarga tersebut sudah memiliki pasangan [x]\n");
-		}else if(srcNode->info.age < 18){
-			printf("\t[x] Anggota keluarga tersebut masih dibawah umur [x]\n");
-		}else{
-			break;
-		}
-	}while(1);
+    /*Get gender*/
+    if(srcNode->info.gender == 0){
+        gender = true;
+    }else{
+        gender = false;
+    }
 
-	/*Get gender*/
-	if(srcNode->info.gender == 0){
-		gender = true;
-	}else{
-		gender = false;
-	}
+    /*Insert identitas partner*/
+    do{
+        printf("\n\t%c Masukan nama pasangan: ", 175);
+        scanf(" %[^\n]", &partnerName);
+        if(Search((*pTree).root, partnerName)!=NULL){ /*Check jika ada node yg memiliki nama yg sama di tree*/
+            printf("\t[x] Nama orang tersebut sudah ada pada pohon keluarga [x]\n");
+        }else{
+            break;
+        }
+    }while(1);
+    do{
+        fflush(stdin);
+        printf("\n\tUmur pasangan minimal 18 tahun\n");
+        printf("\t%c Masukan umur pasangan: ", 175);
+        scanf(" %d", &age);
 
-/*Insert identitas partner*/
-	do{
-		printf("\n\t%c Masukan nama pasangan: ", 175);
-		scanf(" %[^\n]", &partnerName);
-		if(Search((*pTree).root, partnerName)!=NULL){ /*Check jika ada node yg memiliki nama yg sama di tree*/
-			printf("\t[x] Nama orang tersebut sudah ada pada pohon keluarga [x]\n");
-		}else{
-			break;
-		}
-	}while(1);
-	do{
-		fflush(stdin);
-		printf("\n\tUmur pasangan minimal 18 tahun\n");
-		printf("\t%c Masukan umur pasangan: ", 175);
-		scanf(" %d", &age);
+        if(age < 18){
+            printf("\t[x] Pasangan masih dibawah umur [x]\n");
+        }else{
+            break;
+        }
+    }while(true);
+    
+    /*Alokasi partner*/
+    partner = CreateNPartner(partnerName, age, gender);
 
-		if(age < 18){
-			printf("\t[x] Pasangan masih dibawah umur [x]\n");
-		}else{
-			break;
-		}
-	}while(true);
-	
-	/*Alokasi partner*/
-	partner = CreateNPartner(partnerName, age, gender);
-
-	/*Insert ke tree*/
-	InsertPartner(srcNode, partner);
-	system("cls");
-	printFromFile("ilustrasi/wedding.txt");
-	printf("\n\tPress any key to continue . . . ");
-	getch();
+    /*Insert ke tree*/
+    InsertPartner(srcNode, partner);
+    system("cls");
+    printFromFile("ilustrasi/wedding.txt");
+    printf("\n\tPress any key to continue . . . ");
+    getch();
+    
+    /*Write to file*/
+    fprintf(file, " -> %s, %d, %d", partnerName, age, gender);
+    fclose(file);
 }
+
 
 void InputMember(struct nkTree *pTree){
     nkAddr parentNode, newNode;
@@ -273,6 +284,7 @@ void InputMember(struct nkTree *pTree){
 	int age; 
 	boolean gender;
     infoType name, parentName;
+    FILE *file = fopen("KingdomMember.txt", "a");
     
     /*cari parent*/
     printf("\n\tMasukan 'q' untuk kembali\n");
@@ -332,11 +344,13 @@ void InputMember(struct nkTree *pTree){
 	
      /* Membuat node baru dengan data yang diterima dari pengguna */
 	newNode = CreateNode(parentNode, name, age, gender);
+	 /* Write newNode ke file txt*/
+	fprintf(file, "\n%s, %s, %d, %d", parentName, name, age, gender);
 
     // Memasukkan node baru ke dalam pohon
     InsertNode(pTree, newNode);
     printf("\n\t[o] Anggota keluarga berhasil ditambahkan [o]");
- 
+ 	fclose(file);
 	getch();
 }
 

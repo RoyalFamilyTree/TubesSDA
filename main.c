@@ -39,7 +39,8 @@ int main(){
 	if(isFileEmpty()){
 		InsertKing(&pTree);	
 	}else{
-		getKingFromFile(&pTree);
+		getDataFromFile(&pTree);
+//		getPartnerFromFile(&pTree);
 	}
 	
 	do{
