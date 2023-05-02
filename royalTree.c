@@ -658,6 +658,7 @@ void nextKing(nkAddr root) {
         } else {
             while (current != NULL && current->nb == NULL) {
                 current = current->parent;
+                getchar();
             }
 
             if (current != NULL) {
@@ -667,7 +668,8 @@ void nextKing(nkAddr root) {
         i++;
         y++;
         
-        system("Pause");
+//        system("Pause");
+		getchar();
     }
      
     

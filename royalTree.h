@@ -187,6 +187,8 @@ void printNodeInfo(nkAddr node, infoType name);
 /* IS: node sembarang, name sama dengan node->info.name atau node->partner->info.name*/
 /* FS: Menampilkan nama, umur, jenis kelamin, orang tua, saudara, dan anak dari node jika atribut tersebut ada*/
 
+void ProceedTimeSkip(nkAddr *root, int year);
+
 //sumber : github
 void gotoxy(int, int);
 //Memindahkan kursor ke posisi tertentu di layar 
@@ -198,6 +200,8 @@ void loading_screen();
 //Dibuat oleh : Adinda
 void printFromFile(const char* location);
 /* Menampilkan teks pada file yang terdapat pada location*/
+
+
 
 #endif
 

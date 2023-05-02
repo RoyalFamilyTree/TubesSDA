@@ -35,6 +35,8 @@ int main(){
 	system("cls");
 	printFromFile("ilustrasi/king.txt");
 	printf("\n");
+	system("Pause");
+	system("cls");
 
 	if(isFileEmpty()){
 		InsertKing(&pTree);	
