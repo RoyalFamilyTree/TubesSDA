@@ -749,3 +749,98 @@ void printFromFile(const char* location){
 
 	fclose(read);
 }
+
+void Upgrade(nkAddr *root){
+	nkAddr temp;
+	temp= (*root)->nb;
+	if ((*root)->fs==NULL)
+		(*root)->fs=temp;
+	while(temp!=NULL){
+		temp->parent= *root;
+		temp=temp->nb;
+	}
+}
+
+void deleteNode(nkAddr *pDel, struct nkTree *pTree){
+	nkAddr pCur;
+	pCur=*pDel;
+
+	if((*pTree).root == NULL) //kondisi ketika root kosong
+	{
+		printf("Tree Kosong");
+		return;
+	}
+	//kondisi node merupakan leaf dan jika merupakan first son maka next brothernya menjadi first son
+	if(pCur->fs == NULL)
+	{
+		if(pCur->parent->fs == pCur) //kondisi ketika node merupakan anak pertama dari parent
+		{
+			if(pCur->nb != NULL) //ketika first son memiliki sibling
+				pCur->parent->fs = pCur->nb;
+			else
+				pCur->parent->fs = NULL;
+			DeallocNode(&(*pDel));
+		}else //kondisi ketika node bukan merupakan anak pertama
+		{
+			pCur = pCur->parent->fs; //pCur ditunjuk ke anak pertama
+			while(pCur->nb != *pDel) //pencarian node sebelum pDel
+				pCur = pCur->nb;
+			if((*pDel)->nb == NULL) //kondisi ketika pDel merupakan last son
+			{
+				pCur->nb = NULL;
+				DeallocNode(&(*pDel));
+			}
+			else //kondisi ketika pDel bukan merupakan last son
+			{
+                pCur->nb = (*pDel)->nb;
+				DeallocNode(&(*pDel));
+			}
+		}
+		return;
+	}
+	else //kondisi node memiliki child
+	{
+		while( pCur->fs!=NULL )
+			pCur = pCur->fs; // pcur diisi dengan First son sampai null
+		while (pCur != *pDel){
+			Upgrade(&pCur);
+			if (pCur->parent!=NULL)
+				pCur->nb=pCur->parent->nb;
+			else
+				pCur->nb=NULL;
+			pCur= pCur->parent;
+		}
+
+		pCur = *pDel;
+		if(pCur->parent != NULL ) // ketika node memiliki parent
+		{
+			if(pCur->parent->fs == *pDel) //kondisi node merupakan first son dari parentnya
+			{
+				pCur->parent->fs=pCur->fs;
+				pCur->fs->parent = pCur->parent;
+				DeallocNode(&(*pDel));
+			}else //kondisi node bukan merupakan first son
+			{
+				pCur = (*pDel)->parent->fs;
+				while(pCur->nb != *pDel) //pencarian node sebelum pDel
+					pCur = pCur->nb;
+				pCur->nb = (*pDel)->fs;
+				if((*pDel)->nb == NULL)
+					(*pDel)->fs->nb = NULL;
+				else
+					(*pDel)->fs->nb = (*pDel)->nb;
+				DeallocNode(&(*pDel));
+			}
+			return;
+		}
+		else //kondisi ketika yang dihapus merupakan root
+		{
+			(*pTree).root = pCur->fs	;
+			(*pTree).root->parent = NULL;
+			DeallocNode(&(*pDel));
+//			system("PAUSE");
+		}
+		printf("berhasil dihapus");
+		system("PAUSE");
+	}
+}

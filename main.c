@@ -12,7 +12,7 @@ int main(){
 	Create_Tree(&pTree);
 	nkAddr node, king;
 	int year;
-	char choose;
+	char choose, choose2;
 	char str[]="";
 	char searchName[20];
 	unsigned char choice;
@@ -96,12 +96,81 @@ int main(){
 				InsertVPartner(&pTree);
 				break;
 			case 3:
-  		  		system("cls");
-		   		break;
-			case 4:
 				system("cls");
-				DeleteNode(pTree.root);
-				break;
+  		  		if (!isEmpty(pTree)){
+                    do{
+                    system("CLS");
+                    fflush(stdin);
+                    printf("\n\n\n\t Pilih penyebab turunnya tahta raja : \n");
+                    printf("\t 1. Tewas karena penyakit/terbunuh atau alasan mendadak lainnya\n");
+                    printf("\t   (Tahta akan diteruskan, sekaligus Raja turun tahta di umur yang sama) \n");
+                    printf("\t 0. Kembali");
+                    printf("\n\n\t Pilihan %c ", 175);
+                    choose2 = getchar();
+                    if(choose2=='1'){
+                        fflush(stdin);
+                        if(king != NULL){
+                            printf("\n\t%c Apakah anda yakin ingin menghapus data ini? [Y/N] : ", 175);
+                            choice = getchar();
+                            if(choice == 'Y'){
+                                printf("\n\t[o] Data anggota keluarga bernama \"\%s\"\ telah dihapus\n", king->info.name);
+                                deleteNode(&king, &pTree);
+                                printf("\t");
+                                system("PAUSE");
+                            }
+                            else{
+                                printf("\n\t[o] Data batal dihapus\n");
+                                printf("\t");
+								system("PAUSE");
+                            }
+                        }
+                        break;
+                    }
+                    else if(choose2=='0'){
+                        break;
+                    }
+                    else{
+                        printf("\n\t[x] INPUT TIDAK VALID!");
+                        system("PAUSE");
+                    }
+                    }while(choose2 != 0);
+                }
+                else{
+                    printf("\n\t[x] Anggota Keluarga Masih Kosong!\n");
+                }
+                system("PAUSE");
+                  break;
+			case 4:
+			fflush(stdin);
+                system("cls");
+                printf("\n\t%c Nama anggota keluarga yang hendak dihapus: ", 175);
+                scanf(" %[^\n]",&searchName);
+                fflush(stdin);
+                node = Search(pTree.root, searchName);
+                if (node != NULL){
+                	if (node == king){
+                		printf("Tidak dapat menghapus raja/ratu\n");
+                		system("PAUSE");
+					} else {
+                    printf("\t%c Apakah anda yakin ingin menghapus data ini? [Y/N] : ", 175);
+                    scanf("%c",&choice);
+                    if(choice == 'Y'){
+                        printf("\n\t[o] Data anggota keluarga telah dihapus\n");
+                        deleteNode(&node, &pTree);
+                        system("PAUSE");
+                        break;
+                    }
+                    else{
+                        printf("\n\t[o] Data batal dihapus\n");
+                        system("PAUSE");
+                    }
+                }
+                }
+                else{
+                    printf("\n\t[x] Data bernama %s tidak ditemukan di dalam daftar anggota keluarga\n");
+                    system("PAUSE");
+                }
+                break;
 			case 5:
 				printFromFile("ilustrasi/castle.txt");
 				printf("\n\t%c Nama: ", 175);
