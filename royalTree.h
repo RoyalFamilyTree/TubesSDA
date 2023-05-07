@@ -62,18 +62,12 @@ boolean isEmpty (struct nkTree X);
 
 /**** Konstruktor/Kreator Tree Kosong ****/
 
-//Dibuat oleh : Fikri
-boolean isFileEmpty();
-/* Cek file kosong */
-
 //Sumber : Tugas Program Struktur Non Binary Tree SDA-P
 void Create_Tree(struct nkTree *X);
 // Membuat tree kosong
 
 /**** Manajemen Memory ****/
 /*Penambahan tipe data*/
-
-//void getPartnerFromFile(struct nkTree *pTree)
 
 //Sumber : github 
 //Modifikasi oleh : Adinda
@@ -112,9 +106,10 @@ void InsertVPartner(struct nkTree *myTree);
 /* Menambahkan node partner*/
 
 //Dibuat oleh : Fikri
-void InputMember();
-/* IS: data subvar newNode belum diketahui*/
-/* FS: data subvar newNode terinput oleh user*/
+void InputMember(struct nkTree *pTree);
+/* IS: pTREE tidak kosong*/
+/* FS: Meminta input identitas node dari user, mengalokasi node dan menambahkan node tsb kedalam tree*/
+/* Menambahkan node anggota keluarga*/
 
 /**** PRIMITIF BERDASARKAN ALAMAT ****/
 /**** Penambahan node berdasarkan alamat ****/
@@ -131,20 +126,11 @@ void InsertNode(struct nkTree *treeRoot, nkAddr newNode);
 
 /**** Penghapusan sebuah node ****/
 
-////Dibuat oleh : Fikri
-//nkAddr FindParent(nkAddr root, nkAddr node);
-///* IS: pointer nkAddr root dan pointer nkAddr node yang akan dicari induknya.*/
-///* FS: pointer nkAddr yang menunjuk pada node induk dari node target. Jika tidak ditemukan, akan mengembalikan NULL.*/
-//
-////Dibuat oleh : Fikri
-//nkAddr FindSuccessor(nkAddr root, nkAddr node);
-///* IS: pointer nkAddr root dan pointer nkAddr node yang akan dicari penggantinya. */
-///* FS: pointer nkAddr yang menunjuk pada node pengganti. Jika tidak ditemukan pengganti, akan mengembalikan NULL. */
-
 //Dibuat oleh : Adinda
 void Upgrade(nkAddr *root);
-/* IS: */
-/* FS: */ 
+/* IS: Pointer "root" menunjuk ke alamat suatu objek nkAddr yang mungkin berisi data*/
+/* FS: fungsi "Upgrade" telah melakukan pembaruan pada struktur data yang ditunjuk oleh "root" dengan mengatur 
+       nilai pointer "fs" dan "parent" pada elemen-elemen yang terlibat dalam iterasi*/ 
 
 //Dibuat oleh : Fikri
 //Modifikasi oleh : Adinda
@@ -153,11 +139,6 @@ void deleteNode(nkAddr *pDel, struct nkTree *pTree);
 /* FS: apabila node member dengan info sembarang tersedia, maka akan terhapus. apabila tidak tersedia, muncul output "nama anggota tidak tersedia"*/
 
 /**** PROSES SEMUA NODE TREE  ****/
-
-////Dibuat oleh : Adinda
-//void printTree(nkAddr node, char tab[]);
-///* Menampilkan tree pada program secara preorder*/
-
 //Dibuat oleh : Welsya
 struct Queue *initQueue(int size);
 
@@ -182,7 +163,13 @@ void printNodeInfo(nkAddr node, infoType name);
 /* IS: node sembarang, name sama dengan node->info.name atau node->partner->info.name*/
 /* FS: Menampilkan nama, umur, jenis kelamin, orang tua, saudara, dan anak dari node jika atribut tersebut ada*/
 
+//Dibuat oleh : Adinda
+void TimeSkip(nkAddr node, int year);
+/* Rekursif untuk menambahkan node->info.age dengan year pada setiap node */
+
+//Dibuat oleh : Adinda
 void ProceedTimeSkip(nkAddr *root, int year);
+/* Process eksekusi dan passing address kepada node untuk menambahkan node->info.age dengan year*/
 
 //sumber : github
 void gotoxy(int, int);
@@ -190,7 +177,7 @@ void gotoxy(int, int);
 
 //Sumber : github
 void loading_screen();
-/*Menampilkan tulisan load*/
+/*Menampilkan tulisan loading*/
 
 //Dibuat oleh : Adinda
 void printFromFile(const char* location);

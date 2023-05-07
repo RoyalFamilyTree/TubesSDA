@@ -45,9 +45,7 @@ int main(){
 	system("cls");
 	printFromFile("ilustrasi/king.txt");
 	printf("\n");
-	system("Pause");
-	system("cls");
-	
+	InsertKing(&pTree);
 	do{
 		system("CLS");
 		king = pTree.root;
