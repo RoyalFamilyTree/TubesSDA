@@ -1,0 +1,7 @@
+NULL, Fikri, 79, 1 -> Ralisa, 71, 0
+Fikri, Wel, 40, 0
+Ralisa, Fajar Sadboy, 40, 1
+Fikri, Will, 50, 1 -> Cath, 48, 0
+Will, George, 20, 1
+Will, Charlotte, 18, 0 -> Wel, 20, 0
+Wel, k, 1, 0
