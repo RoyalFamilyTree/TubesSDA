@@ -6,3 +6,10 @@ Will, George, 20, 1
 Will, Charlotte, 18, 0 -> Wel, 20, 0
 Wel, k, 1, 0
 Diana, Rara, 40, 0
+Fikri, Adinda, 50, 0
+Fikri, Welsya, 44, 0
+Fikri, Adinda, 50, 0
+Ralisa, Welsya, 51, 0
+Fikri, Naffa, 30, 0
+Fikri, Adinda, 50, 0
+Fikri, Welsya, 40, 0

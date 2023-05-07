@@ -141,18 +141,28 @@ void deleteNode(nkAddr *pDel, struct nkTree *pTree);
 /**** PROSES SEMUA NODE TREE  ****/
 //Dibuat oleh : Welsya
 struct Queue *initQueue(int size);
+/* IS : queue belum dialokasikan dan masih bernilai sembarang */
+/* FS : terbentuk queue yang sudah diinisialisasi kosong */
 
 //Dibuat oleh : Welsya
 void enQueue(struct Queue *queue, nkAddr node);
+/* IS : queue masih kosong, node-node terdefinisi */
+/* FS : node per level masuk ke dalam queue */
 
 //Dibuat oleh : Welsya
 nkAddr deQueue(struct Queue *queue);
+/* IS : node masih berada di dalam antrian */
+/* FS : node dikeluarkan dari queue kemudian mengembalikan node baru */
 
 //Dibuat oleh : Welsya
 void levelOrderTraversal(nkAddr root);
+/* IS : node-node terdefinisi */
+/* FS : menampilkan node atau silsilah kerajaan secara level order, disertai perhitungan generasi */
 
 //Dibuat oleh : Welsya
 void nextKing(nkAddr root);
+/* IS: Silsilah sudah terisi ataupun kosong */
+/* FS: Ditampilkan nama-nama anggota kerajaan yang merupakan penerus takhta */
 
 //Dibuat oleh : Adinda
 int GetNodeDegree(nkAddr node);

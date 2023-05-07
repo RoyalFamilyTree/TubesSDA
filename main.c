@@ -135,7 +135,7 @@ int main(){
                         break;
                     }
                     else{
-                        printf("\n\t[x] INPUT TIDAK VALID!");
+                        printf("\n\t[x] INPUT TIDAK VALID!\n");
                         system("PAUSE");
                     }
                     }while(choose2 != 0);

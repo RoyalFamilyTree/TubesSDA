@@ -389,7 +389,6 @@ void deleteNode(nkAddr *pDel, struct nkTree *pTree){
 			DeallocNode(&(*pDel));
 //			system("PAUSE");
 		}
-		printf("berhasil dihapus");
 		system("PAUSE");
 	}
 }
