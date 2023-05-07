@@ -10,8 +10,6 @@
 #define PRODI "D4 Teknik Informatika"
 #define TAHUN "2023"
 
-
-
 int main(){
 	struct nkTree pTree;
 	Create_Tree(&pTree);
@@ -101,7 +99,6 @@ int main(){
 				InsertVPartner(&pTree);
 				break;
 			case 3:
-				system("cls");
   		  		if (!isEmpty(pTree)){
                     do{
                     system("CLS");
@@ -123,11 +120,15 @@ int main(){
                                 printf("\t");
                                 system("PAUSE");
                             }
-                            else{
+                            else if(choice =='N'){
                                 printf("\n\t[o] Data batal dihapus\n");
                                 printf("\t");
 								system("PAUSE");
-                            }
+                            }else{
+                            	printf("\n\t[x] INPUT TIDAK VALID ! [x]\n");
+                            	printf("\t");
+                            	system("PAUSE");
+							}
                         }
                         break;
                     }
@@ -135,7 +136,8 @@ int main(){
                         break;
                     }
                     else{
-                        printf("\n\t[x] INPUT TIDAK VALID!\n");
+                        printf("\n\t[x] INPUT TIDAK VALID [x]!\n");
+                        printf("\t");
                         system("PAUSE");
                     }
                     }while(choose2 != 0);
@@ -143,10 +145,9 @@ int main(){
                 else{
                     printf("\n\t[x] Anggota Keluarga Masih Kosong!\n");
                 }
-                system("PAUSE");
-                  break;
+                break;
 			case 4:
-			fflush(stdin);
+				fflush(stdin);
                 system("cls");
                 printf("\n\t%c Nama anggota keluarga yang hendak dihapus: ", 175);
                 scanf(" %[^\n]",&searchName);
@@ -154,7 +155,7 @@ int main(){
                 node = Search(pTree.root, searchName);
                 if (node != NULL){
                 	if (node == king){
-                		printf("Tidak dapat menghapus raja/ratu\n");
+                		printf("\t[x] Tidak dapat menghapus raja/ratu [x]\n");
                 		system("PAUSE");
 					} else {
                     printf("\t%c Apakah anda yakin ingin menghapus data ini? [Y/N] : ", 175);
@@ -210,7 +211,7 @@ int main(){
     			exit(1);
     			break;
     		default:
-				printf("\n\tInput tidak valid");
+				printf("\n\t[x] INPUT TIDAK VALID [x]");
 				printf("\n\tTekan tombol apapun untuk kembali");
 				getch();
 				break;

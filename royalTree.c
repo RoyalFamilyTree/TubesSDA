@@ -87,6 +87,11 @@ void InsertKing(struct nkTree *pTree){
 	int age, temp;
 	boolean gender;
 	
+	/* Check if root is empty */
+    if (pTree->root == NULL) {
+        printf("\n\t\tROOT MASIH KOSONG !\n");
+    }
+
 	/*Input nama*/
 	printf("\n\tMasukan Identitas Raja / Ratu:\n");
 	printf("\n\t%c Nama: ", 175);
@@ -193,84 +198,85 @@ void InsertVPartner(struct nkTree *pTree){
     getch();
 }
 
-
-void InputMember(struct nkTree *pTree){
+void InputMember(struct nkTree *pTree) {
     nkAddr parentNode, newNode;
 
     // Menerima input dari pengguna untuk membuat node baru
     int temp;
-	int age; 
-	boolean gender;
+    int age;
+    boolean gender;
     infoType name, parentName;
     FILE *file = fopen("KingdomMember.txt", "a");
-    
-    /*cari parent*/
-    printf("\n\tMasukan 'q' untuk kembali\n");
-	do{
-		printf("\n\t%c Nama orang tua: ", 175);
-		scanf(" %[^\n]", &parentName);
-		if(strcmp(parentName, "q")==0){
-			return;
-		}
-		parentNode = Search((*pTree).root, parentName);
-		if(parentNode == NULL){
-			printf("\t[x] Nama orang tua tidak ditemukan [x]\n");
-		}else if(parentNode->partner == NULL){
-			printf("\t[x] Orang tersebut tidak memiliki pasangan [x]\n");
-		}else{
-			break;
-		}
-	}while(1);
-    	
-    /*Input nama*/
-	do{
-		printf("\n\t%c Masukan nama: ", 175);
-		scanf(" %[^\n]", &name);
-		if(Search((*pTree).root, name)!=NULL){ /*Check jika ada node yg memiliki nama yg sama di tree*/
-			printf("\t[x] Nama orang tersebut sudah ada pada pohon keluarga [x]\n");
-		}else{
-			break;
-		}
-	}while(1);
-	
-	/*Input usia*/
-	do{
-		printf("\n\tUmur anak minimal 19 tahun lebih muda dari kedua orang tua\n");
-		printf("\n\t%c Masukan umur: ", 175);
-		scanf(" %d", &age);
-		if(age >= 1 && age <= parentNode->info.age - 19 && age <= parentNode->partner->info.age - 19){ //Umur minimal 19 tahun lebih muda dari parent
-			break;
-		}else{
-			printf("\t[x] INPUT TIDAK VALID ! [x]\n");
-		}
-	}while(1);
-   	
-	/*Input jenis kelamin*/
-	do{
-		printf("\n\t%c Pilih jenis kelamin\n", 175);
-		printf("\t  0. Wanita\n");
-		printf("\t  1. Pria\n");
-		printf("\t  Pilihan: ");
-		scanf(" %d", &temp);
-		if(temp != 0 && temp != 1){
-		printf("\t[x] INPUT TIDAK VALID ! [x]\n");
-		}else{
-			gender = temp;
-			break;
-		}
-	}while(1);
-	
-     /* Membuat node baru dengan data yang diterima dari pengguna */
-	newNode = CreateNode(parentNode, name, age, gender);
-	 /* Write newNode ke file txt*/
-	fprintf(file, "\n%s, %s, %d, %d", parentName, name, age, gender);
 
+    /* cari parent */
+    printf("\n\tMasukan 'q' untuk kembali\n");
+    do {
+        printf("\n\t%c Nama orang tua: ", 175);
+        scanf(" %[^\n]", &parentName);
+        if (strcmp(parentName, "q") == 0) {
+            return;
+        }
+        parentNode = Search((*pTree).root, parentName);
+        if (parentNode == NULL) {
+            printf("\t[x] Nama orang tua tidak ditemukan [x]\n");
+        } else if (parentNode->partner == NULL) {
+            printf("\t[x] Orang tersebut tidak memiliki pasangan [x]\n");
+        } else {
+            break;
+        }
+    } while (1);
+
+    /* Input nama */
+    do {
+        printf("\n\t%c Masukan nama: ", 175);
+        scanf(" %[^\n]", &name);
+        if (Search((*pTree).root, name) != NULL) { /* Check jika ada node yg memiliki nama yg sama di tree */
+            printf("\t[x] Nama orang tersebut sudah ada pada pohon keluarga [x]\n");
+        } else {
+            break;
+        }
+    } while (1);
+
+    /* Input usia */
+    do {
+        printf("\n\t%c Masukan umur: ", 175);
+        scanf(" %d", &age);
+        if (age >= 1 && age <= parentNode->info.age - 19 && age <= parentNode->partner->info.age - 19) {
+            // Umur minimal 19 tahun lebih muda dari parent
+            if (parentNode->fs != NULL && age >= parentNode->fs->info.age) {
+                printf("\t[x] Usia anak harus lebih muda dari saudara pertama [x]\n");
+                continue; // Ask the user to input age again
+            }
+            break;
+        } else {
+            printf("\t[x] Umur anak minimal 19 tahun lebih muda dari kedua orang tua [x]\n");
+        }
+    } while (1);
+
+    /* Input jenis kelamin */
+    do {
+        printf("\n\t%c Pilih jenis kelamin\n", 175);
+        printf("\t  0. Wanita\n");
+        printf("\t  1. Pria\n");
+        printf("\t  Pilihan: ");
+        scanf(" %d", &temp);
+        if (temp != 0 && temp != 1) {
+            printf("\t[x] INPUT TIDAK VALID ! [x]\n");
+        } else {
+            gender = temp;
+            break;
+        }
+    } while (1);
+
+    /* Alokasi node */
+    newNode = CreateNode(parentNode, name, age, gender);
+    
     // Memasukkan node baru ke dalam pohon
     InsertNode(pTree, newNode);
     printf("\n\t[o] Anggota keluarga berhasil ditambahkan [o]");
- 	fclose(file);
-	getch();
+    getch();
 }
+
 
 void InsertNode(struct nkTree *treeRoot, nkAddr newNode){
 	nkAddr temp;
@@ -384,12 +390,11 @@ void deleteNode(nkAddr *pDel, struct nkTree *pTree){
 		}
 		else //kondisi ketika yang dihapus merupakan root
 		{
-			(*pTree).root = pCur->fs	;
+			(*pTree).root = pCur->fs;
 			(*pTree).root->parent = NULL;
 			DeallocNode(&(*pDel));
-//			system("PAUSE");
+			return;
 		}
-		system("PAUSE");
 	}
 }
 
@@ -426,7 +431,7 @@ void nextKing(nkAddr root) {
 	
     if (root == NULL) {
     	printf("\n[x] Belum ada silsilah [x]\n\n");
-    	system("Pause");
+    	system("PAUSE");
         return;
     }
 	gotoxy(38, 4); printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"); 
@@ -437,7 +442,7 @@ void nextKing(nkAddr root) {
     nkAddr current = root;
     if(current->fs == NULL) {
     	gotoxy(32, 10); printf("[x] Raja/Ratu belum memiliki keturunan [x]\n\n");
-    	system("Pause");
+    	system("PAUSE");
     	return;
 	}
 	x = 40; y = 8; i = 1;
@@ -474,16 +479,7 @@ void nextKing(nkAddr root) {
         }
         i++;
         y++;
-        
-//        system("Pause");
-		getchar();
     }
-     
-    
-    if (current == NULL) {
-    	printf("\n");
-    	system("Pause");
-	}
 }
     
 
