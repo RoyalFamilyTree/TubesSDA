@@ -122,30 +122,59 @@ nkAddr Search(nkAddr root, infoType src){
 }
 
 void getDataFromFile(struct nkTree *pTree){
-	nkAddr king;
+	nkAddr king, parent;
 	pairAddr partner;
-    infoType name, partnerName;
-    int age, partnerAge, temp, partnerTemp;
-    boolean gender, partnerGender;
-    FILE *file = fopen("KingdomMember.txt", "r");
-    
-    if (file == NULL) {
-//        printf("File tidak dapat dibuka!\n");
-        exit(1);
-    }
-    
-    fscanf(file, "NULL, %[^,],%d,%d -> %[^,],%d,%d", name, &age, &temp, partnerName, &partnerAge, &partnerTemp);
-    gender = (temp == 1);
-    partnerGender = (partnerTemp == 1);
-    
-    king = CreateNode(NULL, name, age, gender);
-    partner = CreateNPartner(partnerName, partnerAge, partnerGender);
-    
-    InsertNode(pTree, king);
-    InsertPartner(king, partner);
-    
-    fclose(file);
+	infoType name, partnerName, parentName;
+	int age, partnerAge, temp, partnerTemp;
+	boolean gender, partnerGender;
+	char line[MAX_LINE_LENGTH];
+	FILE *file = fopen("KingdomMember.txt", "r");
+	boolean isFirstLine = true; // menandai apakah baris pertama (king) sudah dibaca atau belum
+	
+	if (file == NULL) {
+    	exit(1);
+	}
+
+	while (fgets(line, MAX_LINE_LENGTH, file) != NULL) {
+	    char *partnerDelimiter = strstr(line, "->");
+	    
+	    if (partnerDelimiter != NULL) {
+	        sscanf(line, "%[^,],%[^,],%d,%d -> %[^,],%d,%d\n", parentName, name, &age, &temp, partnerName, &partnerAge, &partnerTemp);
+	        gender = (temp == 1);
+	        partnerGender = (partnerTemp == 1);
+	        
+	        if (isFirstLine) { // jika ini baris pertama, maka dia adalah king
+	            king = CreateNode(NULL, name, age, gender);
+	            isFirstLine = false;
+	        } else { // jika bukan baris pertama, maka dia adalah member (selain partner)
+	        	parent = Search(king, parentName);
+	            nkAddr member = CreateNode(parent, name, age, gender);
+	            InsertNode(pTree, member);
+	            InsertPartner(king, member);
+	        }
+	        partner = CreateNPartner(partnerName, partnerAge, partnerGender);
+	        InsertNode(pTree, king);
+	        InsertPartner(king, partner);
+	    } else {
+	        sscanf(line, "%[^,],%[^,],%d,%d\n", parentName, name, &age, &temp);
+	        gender = (temp == 1);
+	        
+	        if (isFirstLine) { // jika ini baris pertama, maka dia adalah king
+	            king = CreateNode(NULL, name, age, gender);
+	            isFirstLine = false;
+	        } else { // jika bukan baris pertama, maka dia adalah member (tanpa partner)
+	        	parent = Search(king, parentName);
+	            nkAddr member = CreateNode(parent, name, age, gender);
+	            InsertNode(pTree, member);
+	            InsertPartner(king, member);
+	        }
+	    }
+	}
+	
+	fclose(file);
 }
+
+
 
 
 void InsertKing(struct nkTree *pTree){

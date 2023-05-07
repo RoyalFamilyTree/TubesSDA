@@ -12,6 +12,8 @@
 #define MALE 1
 #define FEMALE 0
 
+#define MAX_LINE_LENGTH 100
+
 /***************************/
 /*  	  Type data        */
 /***************************/
