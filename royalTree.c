@@ -121,73 +121,11 @@ nkAddr Search(nkAddr root, infoType src){
 	return NULL;
 }
 
-void getDataFromFile(struct nkTree *pTree){
-	nkAddr king, parent;
-	pairAddr partner;
-	infoType name, partnerName, parentName;
-	int age, partnerAge, temp, partnerTemp;
-	boolean gender, partnerGender;
-	char line[MAX_LINE_LENGTH];
-	FILE *file = fopen("KingdomMember.txt", "r");
-	boolean isFirstLine = true; // menandai apakah baris pertama (king) sudah dibaca atau belum
-	
-	if (file == NULL) {
-    	exit(1);
-	}
-
-	while (fgets(line, MAX_LINE_LENGTH, file) != NULL) {
-	    char *partnerDelimiter = strstr(line, "->");
-	    
-	    if (partnerDelimiter != NULL) {
-	        sscanf(line, "%[^,],%[^,],%d,%d -> %[^,],%d,%d", parentName, name, &age, &temp, partnerName, &partnerAge, &partnerTemp);
-	        gender = (temp == 1);
-	        partnerGender = (partnerTemp == 1);
-	        
-	        if (isFirstLine) { // jika ini baris pertama, maka dia adalah king
-	            king = CreateNode(NULL, name, age, gender);
-	            isFirstLine = false;
-	        } else { // jika bukan baris pertama, maka dia adalah member (selain partner)
-	        	parent = Search(king, parentName);
-	            nkAddr member = CreateNode(parent, name, age, gender);
-	            InsertNode(pTree, member);
-	            InsertPartner(king, member);
-	        }
-	        partner = CreateNPartner(partnerName, partnerAge, partnerGender);
-	        InsertNode(pTree, king);
-	        InsertPartner(king, partner);
-	    } else {
-	        sscanf(line, "%[^,],%[^,],%d,%d", parentName, name, &age, &temp);
-	        gender = (temp == 1);
-	        
-	        if (isFirstLine) { // jika ini baris pertama, maka dia adalah king
-	            king = CreateNode(NULL, name, age, gender);
-	            isFirstLine = false;
-	        } else { // jika bukan baris pertama, maka dia adalah member (tanpa partner)
-	        	parent = Search(king, parentName);
-	            nkAddr member = CreateNode(parent, name, age, gender);
-	            InsertNode(pTree, member);
-	            InsertPartner(king, member);
-	        }
-	    }
-	}
-	
-	fclose(file);
-}
-
-
-
-
 void InsertKing(struct nkTree *pTree){
 	nkAddr king;
 	infoType name;
 	int age, temp;
 	boolean gender;
-	FILE *file = fopen("KingdomMember.txt", "w");
-	
-	if (file == NULL) {
-	    printf("File tidak dapat dibuka!\n");
-	    return 1;
-	}
 	
 	/*Input nama*/
 	printf("\n\tMasukan Identitas Raja / Ratu:\n");
@@ -222,10 +160,6 @@ void InsertKing(struct nkTree *pTree){
 	/*Insert ke tree*/
 	InsertNode(pTree, king);
 	printf("\n\t[o] Raja/ ratu berhasil ditambahkan [o]");
-	
-	
-	fprintf(file, "NULL, %s, %d, %d", name, age, gender);
-	fclose(file);
 	getch();
 }
 
@@ -235,7 +169,6 @@ void InsertVPartner(struct nkTree *pTree){
     boolean gender;
     infoType name, partnerName;
     int age;
-    FILE *file = fopen("KingdomMember.txt", "a");
     
     /*Search node*/
     printf("\n\n\tMasukan 'q' untuk kembali\n");
@@ -298,10 +231,6 @@ void InsertVPartner(struct nkTree *pTree){
     printFromFile("ilustrasi/wedding.txt");
     printf("\n\tPress any key to continue . . . ");
     getch();
-    
-    /*Write to file*/
-    fprintf(file, " -> %s, %d, %d", partnerName, age, gender);
-    fclose(file);
 }
 
 

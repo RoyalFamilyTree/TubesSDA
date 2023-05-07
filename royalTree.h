@@ -66,19 +66,12 @@ boolean isEmpty (struct nkTree X);
 boolean isFileEmpty();
 /* Cek file kosong */
 
-//Dibuat oleh : Fikri
-void getKingdomFromFile(struct nkTree *pTree);
-/* IS: tree tersedia, member kosong */
-/* FS: tree terisi oleh node hasil dari read sebuah file */
-
 //Sumber : Tugas Program Struktur Non Binary Tree SDA-P
 void Create_Tree(struct nkTree *X);
 // Membuat tree kosong
 
 /**** Manajemen Memory ****/
 /*Penambahan tipe data*/
-
-void getDataFromFile(struct nkTree *pTree);
 
 //void getPartnerFromFile(struct nkTree *pTree)
 
