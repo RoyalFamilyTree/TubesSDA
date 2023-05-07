@@ -128,7 +128,7 @@ int main(){
                             printf("\n\t%c Apakah anda yakin ingin menghapus data ini? [Y/N] : ", 175);
                             choice = getchar();
                             if(choice == 'Y'){
-                                printf("\n\t[o] Data anggota keluarga bernama \"\%s\"\ telah dihapus\n", king->info.name);
+                                printf("\n\t[o] Data anggota keluarga bernama %s telah dihapus\n", king->info.name);
                                 deleteNode(&king, &pTree);
                                 printf("\t");
                                 system("PAUSE");
