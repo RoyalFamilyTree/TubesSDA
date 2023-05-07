@@ -139,7 +139,7 @@ void getDataFromFile(struct nkTree *pTree){
 	    char *partnerDelimiter = strstr(line, "->");
 	    
 	    if (partnerDelimiter != NULL) {
-	        sscanf(line, "%[^,],%[^,],%d,%d -> %[^,],%d,%d\n", parentName, name, &age, &temp, partnerName, &partnerAge, &partnerTemp);
+	        sscanf(line, "%[^,],%[^,],%d,%d -> %[^,],%d,%d", parentName, name, &age, &temp, partnerName, &partnerAge, &partnerTemp);
 	        gender = (temp == 1);
 	        partnerGender = (partnerTemp == 1);
 	        
@@ -156,7 +156,7 @@ void getDataFromFile(struct nkTree *pTree){
 	        InsertNode(pTree, king);
 	        InsertPartner(king, partner);
 	    } else {
-	        sscanf(line, "%[^,],%[^,],%d,%d\n", parentName, name, &age, &temp);
+	        sscanf(line, "%[^,],%[^,],%d,%d", parentName, name, &age, &temp);
 	        gender = (temp == 1);
 	        
 	        if (isFirstLine) { // jika ini baris pertama, maka dia adalah king
